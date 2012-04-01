@@ -1,3 +1,28 @@
+/**
+ * ImladrisCalendar.java
+ * Version 1.0 beta
+ * Description: convert Gregorian date into Imladris Reckoning date.
+ * 
+ * Copyright 2012 Joaquín Gatica <http://twitter.com/joaquingatica>.
+ * 
+ * Special thanks to Erunno Alcarinollo <http://quenya101.com>.
+ * 
+ * Distributed under the terms of the GNU General Public License.
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * To see a copy of the GNU General Public License, please
+ * go to <http://www.gnu.org/licenses/gpl.txt>.
+ * 
+ */
+
 import java.util.GregorianCalendar;
 
 public class ImladrisCalendar {
