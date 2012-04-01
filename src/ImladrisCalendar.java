@@ -1,7 +1,5 @@
 import java.util.GregorianCalendar;
 
-// TODO methods: add, set, update; check default constructor; exceptions | constructors with Imladris params | check sunset
-
 public class ImladrisCalendar {
 	
 	/**
@@ -208,14 +206,6 @@ public class ImladrisCalendar {
 		this.setGregorian(new GregorianCalendar(year, month-1, dayOfMonth));
 		this.convert();
 	}
-	/*public ImladrisCalendar(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
-		this.setGregorian(new GregorianCalendar(year, month, dayOfMonth, hourOfDay, minute));
-		this.convert();
-	}
-	public ImladrisCalendar(int year, int month, int dayOfMonth, int hourOfDay, int minute, int second) {
-		this.setGregorian(new GregorianCalendar(year, month, dayOfMonth, hourOfDay, minute, second));
-		this.convert();
-	}*/
 	
 	/**
 	 * API Methods
@@ -275,33 +265,6 @@ public class ImladrisCalendar {
 		}
 		return value;
 	}
-	/*public void set(int field, int value) {
-		switch(field) {
-			case YEN:
-				this.setYenInt(value);
-			break;
-			case LOA:
-				this.setLoa(value);
-			break;
-			case DAY_OF_LOA:
-				this.setDayOfLoa(value);
-			break;
-			case PERIOD:
-				this.setPeriodOfLoaInt(value);
-			break;
-			case DAY_OF_PERIOD:
-				this.setDayOfPeriod(value);
-			break;
-			case DAY_OF_WEEK:
-				this.setDayOfWeekInt(value);
-			break;
-			case WEEK_OF_PERIOD:
-				this.setWeekOfPeriod(value);
-			break;
-			default:
-			break;
-		}
-	}*/
 	/**
 	 * Add 'amount' to 'field'.
 	 * Precondition: adding 'amount' must not overflow current 'field' state
@@ -353,7 +316,6 @@ public class ImladrisCalendar {
 	 * INTERNAL Methods
 	 * 
 	 */
-	
 	private void convert() {
 		this.calculate(this.getGregorian());
 	}
@@ -570,9 +532,6 @@ public class ImladrisCalendar {
 			dateStart.add(GregorianCalendar.DAY_OF_YEAR, 1);
 		}
 		return daysBetween;
-	}
-	public void anterior(final GregorianCalendar startDate, final GregorianCalendar endDate) {
-		// TODO
 	}
 	private String intToRoman(int num) {
 		String[] ROMAN = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
