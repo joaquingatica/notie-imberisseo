@@ -2,3 +2,5 @@ bin/
 .settings/
 .classpath
 .project
+src/*.java
+!src/ImladrisCalendar.java
