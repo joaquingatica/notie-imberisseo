@@ -46,21 +46,23 @@ public class ImladrisCalendar {
 	private static final int[] LENGTH_OF_PERIODS_LEAP = {1, 54, 72, 54, 6, 54, 72, 54, 1};
 	private static final String[] DAYS_OF_WEEK = {"Elenya", "Anarya", "Isilya", "Aldúya", "Menelya", "Valanya"};
 	private static final int[][][] YESTARE_MAP = {
-													{{1, 144, 26}}, // YEN I
-													{{1, 144, 26}}, // YEN II
-													{{1, 144, 26}}, // YEN III
-													{{1, 144, 23}}, // YEN IV
-													{{1, 144, 23}}, // YEN V
-													{{1, 144, 23}}, // YEN VI
-													{{1, 144, 20}}, // YEN VII
-													{{1, 144, 20}}, // YEN VIII
-													{{1, 144, 20}}, // YEN IX
-													{{1, 144, 17}}, // YEN X
-													{{1, 142, 17}, {143, 144, 27}}, // YEN XI
-													{{1, 115, 27}, {116, 144, 28}}, // YEN XII
-													{{1, 71, 25}, {72, 144, 26}}, // YEN XIII
-													{{1, 27, 26}, {28, 144, 27}}, // YEN XIV
-												};
+		{{1, 144, 26}}, // YEN I
+		{{1, 144, 26}}, // YEN II
+		{{1, 144, 26}}, // YEN III
+		{{1, 144, 23}}, // YEN IV
+		{{1, 144, 23}}, // YEN V
+		{{1, 144, 23}}, // YEN VI
+		{{1, 144, 20}}, // YEN VII
+		{{1, 144, 20}}, // YEN VIII
+		{{1, 144, 20}}, // YEN IX
+		{{1, 144, 17}}, // YEN X
+		{{1, 142, 17}, {143, 144, 27}}, // YEN XI
+		{{1, 115, 27}, {116, 144, 28}}, // YEN XII
+		{{1, 71, 25}, {72, 144, 26}}, // YEN XIII
+		{{1, 27, 26}, {28, 144, 27}}, // YEN XIV
+		{{1, 83, 27}, {84, 144, 28}}, // YEN XV
+		{{1, 39, 25}, {40, 139, 26}, {140, 144, 26}} // YEN XVI (140-144 are uncertain)
+	};
 	
 	/**
 	 * ATRIBUTES
