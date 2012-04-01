@@ -1,4 +1,4 @@
-import java.util.GregorianCalendar;
+//import java.util.GregorianCalendar;
 
 public class NotieImberisseo {
 
@@ -6,11 +6,12 @@ public class NotieImberisseo {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		GregorianCalendar gcal = new GregorianCalendar();
+		//GregorianCalendar gcal = new GregorianCalendar();
 		//System.out.println(gcal.get(gcal.YEAR)+" "+gcal.get(gcal.MONTH)+" "+gcal.get(gcal.DAY_OF_MONTH));
-		//ImladrisCalendar cal = new ImladrisCalendar(gcal.get(GregorianCalendar.YEAR), gcal.get(GregorianCalendar.MONTH), gcal.get(GregorianCalendar.DAY_OF_MONTH));
+		//ImladrisCalendar cal = new ImladrisCalendar(gcal.get(GregorianCalendar.YEAR), gcal.get(GregorianCalendar.MONTH)+1, gcal.get(GregorianCalendar.DAY_OF_MONTH));
 		//ImladrisCalendar cal = new ImladrisCalendar(new GregorianCalendar());
-		ImladrisCalendar cal = new ImladrisCalendar(2299, 3, 28);
+		//ImladrisCalendar cal = new ImladrisCalendar(2299, 3, 28);
+		ImladrisCalendar cal = new ImladrisCalendar();
 		
 		// print info
 		/*System.out.println("yen: "+cal.getYen());

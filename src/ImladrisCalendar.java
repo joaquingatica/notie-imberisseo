@@ -1,6 +1,6 @@
 import java.util.GregorianCalendar;
 
-// TODO methods: add, set, update; check default constructor; exceptions
+// TODO methods: add, set, update; check default constructor; exceptions | constructors with Imladris params | check sunset
 
 public class ImladrisCalendar {
 	
@@ -192,10 +192,9 @@ public class ImladrisCalendar {
 	/**
 	 * Constructors
 	 */
-	/*public ImladrisCalendar() {
-		this.setGregorian(new GregorianCalendar());
-		this.convert();
-	}*/
+	public ImladrisCalendar() {
+		this(new GregorianCalendar());
+	}
 	public ImladrisCalendar(GregorianCalendar gregorian) {
 		this.setGregorian(new GregorianCalendar(gregorian.get(GregorianCalendar.YEAR), gregorian.get(GregorianCalendar.MONTH), gregorian.get(GregorianCalendar.DAY_OF_MONTH)));
 		this.convert();
@@ -215,10 +214,6 @@ public class ImladrisCalendar {
 	}
 	public ImladrisCalendar(int year, int month, int dayOfMonth, int hourOfDay, int minute, int second) {
 		this.setGregorian(new GregorianCalendar(year, month, dayOfMonth, hourOfDay, minute, second));
-		this.convert();
-	}
-	public ImladrisCalendar(GregorianCalendar gregorian) {
-		this.setGregorian(gregorian);
 		this.convert();
 	}*/
 	
