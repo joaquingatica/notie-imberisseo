@@ -197,11 +197,16 @@ public class ImladrisCalendar {
 		this.convert();
 	}*/
 	public ImladrisCalendar(GregorianCalendar gregorian) {
-		this.setGregorian(gregorian);
+		this.setGregorian(new GregorianCalendar(gregorian.get(GregorianCalendar.YEAR), gregorian.get(GregorianCalendar.MONTH), gregorian.get(GregorianCalendar.DAY_OF_MONTH)));
 		this.convert();
 	}
+	/**
+	 * @param year
+	 * @param month: index 1-12
+	 * @param dayOfMonth
+	 */
 	public ImladrisCalendar(int year, int month, int dayOfMonth) {
-		this.setGregorian(new GregorianCalendar(year, month, dayOfMonth));
+		this.setGregorian(new GregorianCalendar(year, month-1, dayOfMonth));
 		this.convert();
 	}
 	/*public ImladrisCalendar(int year, int month, int dayOfMonth, int hourOfDay, int minute) {

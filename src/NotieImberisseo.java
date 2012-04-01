@@ -8,8 +8,9 @@ public class NotieImberisseo {
 	public static void main(String[] args) {
 		GregorianCalendar gcal = new GregorianCalendar();
 		//System.out.println(gcal.get(gcal.YEAR)+" "+gcal.get(gcal.MONTH)+" "+gcal.get(gcal.DAY_OF_MONTH));
-		ImladrisCalendar cal = new ImladrisCalendar(gcal.get(GregorianCalendar.YEAR), gcal.get(GregorianCalendar.MONTH), gcal.get(GregorianCalendar.DAY_OF_MONTH));
+		//ImladrisCalendar cal = new ImladrisCalendar(gcal.get(GregorianCalendar.YEAR), gcal.get(GregorianCalendar.MONTH), gcal.get(GregorianCalendar.DAY_OF_MONTH));
 		//ImladrisCalendar cal = new ImladrisCalendar(new GregorianCalendar());
+		ImladrisCalendar cal = new ImladrisCalendar(2299, 3, 28);
 		
 		// print info
 		/*System.out.println("yen: "+cal.getYen());
