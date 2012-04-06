@@ -68,6 +68,7 @@ public class ImladrisCalendar {
 	private static final int[] LENGTH_OF_PERIODS = {1, 54, 72, 54, 3, 54, 72, 54, 1};
 	private static final int[] LENGTH_OF_PERIODS_LEAP = {1, 54, 72, 54, 6, 54, 72, 54, 1};
 	private static final String[] DAYS_OF_WEEK = {"Elenya", "Anarya", "Isilya", "Aldúya", "Menelya", "Valanya"};
+	private static final int loa0yenIdayOfWeek = ELENYA;
 	private static final int[][][] YESTARE_MAP = {
 		{{1, 144, 26}}, // YEN I
 		{{1, 144, 26}}, // YEN II
@@ -204,7 +205,7 @@ public class ImladrisCalendar {
 		this.weekOfPeriod = weekOfPeriod;
 	}
 	public void setDayOfWeekInt(int dayOfWeekInt) {
-		this.setDayOfWeek(this.isInMonth()? DAYS_OF_WEEK[dayOfWeekInt-1] : null);
+		this.setDayOfWeek(DAYS_OF_WEEK[dayOfWeekInt-1]);
 		this.dayOfWeekInt = dayOfWeekInt;
 	}
 	public void setDayOfWeek(String dayOfWeek) {
@@ -376,7 +377,7 @@ public class ImladrisCalendar {
 			isMonth = true;
 			month = this.monthFromPeriod(period);
 		}
-		int[] weekInfo = this.weekAndDayOfWeek(dayOfLoa);
+		int[] weekInfo = this.weekAndDayOfWeek(loa, dayOfLoa);
 		weekOfPeriod = weekInfo[0];
 		dayOfWeek = weekInfo[1];
 		// store data and return
@@ -443,7 +444,7 @@ public class ImladrisCalendar {
 			isMonth = true;
 			month = this.monthFromPeriod(period);
 		}
-		int[] weekInfo = this.weekAndDayOfWeek(daysOfLoa);
+		int[] weekInfo = this.weekAndDayOfWeek(loa, daysOfLoa);
 		weekOfPeriod = weekInfo[0];
 		dayOfWeek = weekInfo[1];
 		// store data and return
@@ -535,9 +536,30 @@ public class ImladrisCalendar {
 	private int monthFromPeriod(int period) {
 		return (period < 4)? period - 1 : period - 2; 
 	}
-	private int[] weekAndDayOfWeek(int dayOfLoa) {
-		int week = 1+(int)Math.floor((dayOfLoa-1)/6);
-		int dayOfWeek = 1+((dayOfLoa-1) % 6);
+	private int[] weekAndDayOfWeek(int loa, int dayOfLoa) {
+		// This Loa's Yestare Day Of Week
+		int weekDayOfYestare = ImladrisCalendar.loa0yenIdayOfWeek;
+		// Offset from 24-loa block
+		int aux = loa % 24;
+		// Offset from 12-loa block (in any)
+		if(aux > 11) {
+			weekDayOfYestare = ((weekDayOfYestare -1 + 3) % 6) + 1;
+			aux -= 11;
+		}
+		// Remaining offset
+		for(int i = 0; i <= aux; i++) { // pairOfBlocks is between 0 and 11
+			weekDayOfYestare = (weekDayOfYestare - 1) - 1;
+			if(weekDayOfYestare < 0) {
+				weekDayOfYestare = 6 + weekDayOfYestare;
+			}
+			weekDayOfYestare += 1;
+		}
+		// Current day's day of week
+		int dayOfWeekIfWasRegular = ((dayOfLoa-1) % 6) + 1;
+		int dayOfWeek = (((dayOfWeekIfWasRegular - 1) + (weekDayOfYestare - 1)) % 6) + 1;
+		// Week
+		int week = 0;
+		/*int week = 1+(int)Math.floor((dayOfLoa-1)/6);*/
 		int[] ret = {week, dayOfWeek};
 		return ret;
 	}
@@ -569,6 +591,21 @@ public class ImladrisCalendar {
             }
         }
         return roman;
+	}
+	
+	public String toString() {
+		String str = this.getDayOfWeek()+", ";
+		if(this.isInMonth()) {
+			str += this.getPeriodOfLoa()+" "+this.getDayOfPeriod()+", ";
+		}
+		else if(this.getPeriodOfLoaInt() == ImladrisCalendar.ENDERI) {
+			str += this.getPeriodOfLoa()+" "+this.getDayOfPeriod()+", ";
+		}
+		else {
+			str += this.getPeriodOfLoa()+", ";
+		}
+		str += this.getYen()+" "+this.getLoa();
+		return str;
 	}
 	
 }
