@@ -86,7 +86,7 @@ public class ImladrisCalendar {
 		{{1, 71, 25}, {72, 144, 26}}, // YEN XIII
 		{{1, 27, 26}, {28, 144, 27}}, // YEN XIV
 		{{1, 83, 27}, {84, 144, 28}}, // YEN XV
-		{{1, 39, 25}, {40, 139, 26}, {140, 144, 26}} // YEN XVI (140-144 are uncertain)
+		{{1, 39, 25}, {40, 139, 26}, {140, 144, 26}} // YEN XVI (loar 140-144 are uncertain)
 	};
 	
 	/**
@@ -248,16 +248,12 @@ public class ImladrisCalendar {
 	/**
 	 * Constructors from Imladris Dates
 	 */
-	public ImladrisCalendar(String yen, int loa, int period) { // Only for YESTARE & METTARE
-		/*this.setYenInt(this.romanToInt(yen));
-		this.setLoa(loa);
-		this.setPeriodOfLoaInt(period);
-		this.setDayOfPeriod(1);
-		this.setGregorian(new GregorianCalendar());
-		this.updateFromYenLoaPeriodAndDayOfPeriod();*/
+	// Only for YESTARE & METTARE
+	public ImladrisCalendar(String yen, int loa, int period) {
 		this(yen, loa, period, 1);
 	}
-	public ImladrisCalendar(String yen, int loa, int period, int day) { // For any period, is 1-based indexed (1-9|YESTARE-METTARE)
+	 // For any period, is 1-based indexed (1-9|YESTARE-METTARE)
+	public ImladrisCalendar(String yen, int loa, int period, int day) {
 		this.setYenInt(this.romanToInt(yen));
 		this.setLoa(loa);
 		this.setPeriodOfLoaInt(period);
