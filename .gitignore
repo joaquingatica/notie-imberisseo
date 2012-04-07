@@ -2,5 +2,8 @@ bin/
 .settings/
 .classpath
 .project
+*~
+TODO
 src/*.java
+!src/NotieImberisseo.java
 !src/ImladrisCalendar.java
