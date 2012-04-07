@@ -1,6 +1,6 @@
 /**
  * ImladrisCalendar.java
- * Version 1.0 beta
+ * Version 1.1 beta
  * Description: convert Gregorian date into Imladris Reckoning date.
  * 
  * Copyright 2012 Joaquín Gatica <http://twitter.com/joaquingatica>.
@@ -107,6 +107,8 @@ public class ImladrisCalendar {
 	private int weekOfPeriod;
 	private int dayOfWeekInt;
 	private String dayOfWeek;
+	private int yestareWeekDayInt;
+	private String yestareWeekDay;
 	
 	/**
 	 * Getters and setters
@@ -163,6 +165,12 @@ public class ImladrisCalendar {
 	public String getDayOfWeek() {
 		return dayOfWeek;
 	}
+	public int getYestareWeekDayInt() {
+		return yestareWeekDayInt;
+	}
+	public String getYestareWeekDay() {
+		return yestareWeekDay;
+	}
 	public void setYenInt(int yenInt) {
 		this.setYen(this.intToRoman(yenInt));
 		this.yenInt = yenInt;
@@ -211,26 +219,41 @@ public class ImladrisCalendar {
 	public void setDayOfWeek(String dayOfWeek) {
 		this.dayOfWeek = dayOfWeek;
 	}
-	
+	public void setYestareWeekDayInt(int yestareWeekDayInt) {
+		this.setYestareWeekDay(DAYS_OF_WEEK[yestareWeekDayInt-1]);
+		this.yestareWeekDayInt = yestareWeekDayInt;
+	}
+	public void setYestareWeekDay(String yestareWeekDay) {
+		this.yestareWeekDay = yestareWeekDay;
+	}
 	
 	/**
-	 * Constructors
+	 * Constructor with today's date
 	 */
 	public ImladrisCalendar() {
 		this(new GregorianCalendar());
 	}
+	/**
+	 * Constructors from Gregorian Dates
+	 */
 	public ImladrisCalendar(GregorianCalendar gregorian) {
 		this.setGregorian(new GregorianCalendar(gregorian.get(GregorianCalendar.YEAR), gregorian.get(GregorianCalendar.MONTH), gregorian.get(GregorianCalendar.DAY_OF_MONTH)));
 		this.convert();
 	}
-	/**
-	 * @param year
-	 * @param month: index 1-12
-	 * @param dayOfMonth
-	 */
-	public ImladrisCalendar(int year, int month, int dayOfMonth) {
+	public ImladrisCalendar(int year, int month, int dayOfMonth) { // month is 1-based indexed (1-12|January|December)
 		this.setGregorian(new GregorianCalendar(year, month-1, dayOfMonth));
 		this.convert();
+	}
+	/**
+	 * Constructors from Imladris Dates
+	 */
+	public ImladrisCalendar(int yen, int loa, int period, int day) { // period is 1-based indexed (1-9|YESTARE-METTARE)
+		this.setYenInt(yen);
+		this.setLoa(loa);
+		this.setPeriodOfLoaInt(period);
+		this.setDayOfPeriod(day);
+		this.updateGregorian();
+		this.setGregorian(new GregorianCalendar());
 	}
 	
 	/**
@@ -362,6 +385,7 @@ public class ImladrisCalendar {
 		int month = 0;
 		int weekOfPeriod = 0;
 		int dayOfWeek = 0;
+		int yestareWeekDay = 0;
 		
 		int y = yen*loa;
 		// calculate day of march of year 'y' in which loa begins
@@ -380,6 +404,7 @@ public class ImladrisCalendar {
 		int[] weekInfo = this.weekAndDayOfWeek(loa, dayOfLoa);
 		weekOfPeriod = weekInfo[0];
 		dayOfWeek = weekInfo[1];
+		yestareWeekDay = weekInfo[2];
 		// store data and return
 		this.setLoaBeginingDay(loaBeg);
 		this.setLeapLoa(isLeapLoa);
@@ -389,6 +414,7 @@ public class ImladrisCalendar {
 		this.setMonthOfLoa(month);
 		this.setWeekOfPeriod(weekOfPeriod);
 		this.setDayOfWeekInt(dayOfWeek);
+		this.setYestareWeekDayInt(yestareWeekDay);
 		
 		this.updateGregorian();
 	}
@@ -415,6 +441,7 @@ public class ImladrisCalendar {
 		int month = 0;
 		int weekOfPeriod = 0;
 		int dayOfWeek = 0;
+		int yestareWeekDay = 0;
 		
 		int y = cal.get(GregorianCalendar.YEAR);
 		// calculate day of march of year 'y' in which loa begins
@@ -447,6 +474,7 @@ public class ImladrisCalendar {
 		int[] weekInfo = this.weekAndDayOfWeek(loa, daysOfLoa);
 		weekOfPeriod = weekInfo[0];
 		dayOfWeek = weekInfo[1];
+		yestareWeekDay = weekInfo[2];
 		// store data and return
 		this.setYenInt(yen);
 		this.setLoa(loa);
@@ -459,6 +487,7 @@ public class ImladrisCalendar {
 		this.setMonthOfLoa(month);
 		this.setWeekOfPeriod(weekOfPeriod);
 		this.setDayOfWeekInt(dayOfWeek);
+		this.setYestareWeekDayInt(yestareWeekDay);
 	}
 	private int calcLoa(int y) {
 		int loa;
@@ -557,10 +586,10 @@ public class ImladrisCalendar {
 		// Current day's day of week
 		int dayOfWeekIfWasRegular = ((dayOfLoa-1) % 6) + 1;
 		int dayOfWeek = (((dayOfWeekIfWasRegular - 1) + (weekDayOfYestare - 1)) % 6) + 1;
-		// Week
-		int week = 0;
-		/*int week = 1+(int)Math.floor((dayOfLoa-1)/6);*/
-		int[] ret = {week, dayOfWeek};
+		// Week number
+		int week = (int)Math.floor((dayOfLoa + (6 - dayOfWeek) + (weekDayOfYestare - 1))/6);
+		// Group results
+		int[] ret = {week, dayOfWeek, weekDayOfYestare};
 		return ret;
 	}
 	
