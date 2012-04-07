@@ -1,7 +1,8 @@
 /**
  * ImladrisCalendar.java
  * Version 1.1 beta
- * Description: convert Gregorian date into Imladris Reckoning date.
+ * Description: convert Gregorian date into Imladris Reckoning date, and viceversa.
+ * Dependencies: <java.util.GregorianCalendar>
  * 
  * Copyright 2012 Joaquín Gatica <http://twitter.com/joaquingatica>.
  * 
@@ -247,13 +248,22 @@ public class ImladrisCalendar {
 	/**
 	 * Constructors from Imladris Dates
 	 */
-	public ImladrisCalendar(int yen, int loa, int period, int day) { // period is 1-based indexed (1-9|YESTARE-METTARE)
-		this.setYenInt(yen);
+	public ImladrisCalendar(String yen, int loa, int period) { // Only for YESTARE & METTARE
+		/*this.setYenInt(this.romanToInt(yen));
+		this.setLoa(loa);
+		this.setPeriodOfLoaInt(period);
+		this.setDayOfPeriod(1);
+		this.setGregorian(new GregorianCalendar());
+		this.updateFromYenLoaPeriodAndDayOfPeriod();*/
+		this(yen, loa, period, 1);
+	}
+	public ImladrisCalendar(String yen, int loa, int period, int day) { // For any period, is 1-based indexed (1-9|YESTARE-METTARE)
+		this.setYenInt(this.romanToInt(yen));
 		this.setLoa(loa);
 		this.setPeriodOfLoaInt(period);
 		this.setDayOfPeriod(day);
-		this.updateGregorian();
 		this.setGregorian(new GregorianCalendar());
+		this.updateFromYenLoaPeriodAndDayOfPeriod();
 	}
 	
 	/**
@@ -340,7 +350,7 @@ public class ImladrisCalendar {
 				int dayOfLoa = this.getDayOfLoa()+amount;
 				this.add(LOA, (int)Math.floor(dayOfLoa/365));
 				this.setDayOfLoa(dayOfLoa % 365);
-				this.update();
+				this.updateFromYenLoaAndDayOfLoa();
 			break;
 			case WEEK_OF_PERIOD:
 				this.add(DAY_OF_LOA, amount*6);
@@ -368,11 +378,63 @@ public class ImladrisCalendar {
 	private void convert() {
 		this.calculate(this.getGregorian());
 	}
-	
+
+	/**
+	 * With yen, loa, period and dayOfPeriod set, update the rest
+	 */
+	private void updateFromYenLoaPeriodAndDayOfPeriod() {
+		int yen = this.getYenInt();
+		int loa = this.getLoa();
+		int period = this.getPeriodOfLoaInt();
+		int dayOfPeriod = this.getDayOfPeriod();
+		// initialize data variables
+		int loaBeg = 0;
+		int daysOfLoa = 0;
+		boolean isLeapLoa = false;
+		boolean isMonth = false;
+		int month = 0;
+		int weekOfPeriod = 0;
+		int dayOfWeek = 0;
+		int yestareWeekDay = 0;
+		
+		int y = (yen-1)*144 + loa;
+		// calculate day of march of year 'y' in which loa begins
+		loaBeg = this.loaBeginingDay(y);
+		// calculate if is leap loa
+		isLeapLoa = this.checkIfLeapLoa(loa);
+		// calculate day of Loa
+		int[] values = ImladrisCalendar.LENGTH_OF_PERIODS;
+		if(isLeapLoa)
+			values = ImladrisCalendar.LENGTH_OF_PERIODS_LEAP;
+		for(int i = ImladrisCalendar.YESTARE; i < period; i++) {
+			daysOfLoa += values[i-1];
+		}
+		daysOfLoa += dayOfPeriod;
+		// calculate current week in month (if any), and day of week
+		if(this.periodIsMonth(period)) {
+			isMonth = true;
+			month = this.calculateMonthFromPeriod(period);
+		}
+		int[] weekInfo = this.calculateWeekAndDayOfWeek(loa, daysOfLoa);
+		weekOfPeriod = weekInfo[0];
+		dayOfWeek = weekInfo[1];
+		yestareWeekDay = weekInfo[2];
+		// store data and return
+		this.setLoaBeginingDay(loaBeg);
+		this.setDayOfLoa(daysOfLoa);
+		this.setLeapLoa(isLeapLoa);
+		this.setInMonth(isMonth);
+		this.setMonthOfLoa(month);
+		this.setWeekOfPeriod(weekOfPeriod);
+		this.setDayOfWeekInt(dayOfWeek);
+		this.setYestareWeekDayInt(yestareWeekDay);
+		
+		this.updateGregorian();
+	}
 	/**
 	 * With yen, loa and dayOfLoa set, update the rest
 	 */
-	private void update() {
+	private void updateFromYenLoaAndDayOfLoa() {
 		int yen = this.getYenInt();
 		int loa = this.getLoa();
 		int dayOfLoa = this.getDayOfLoa();
@@ -387,21 +449,21 @@ public class ImladrisCalendar {
 		int dayOfWeek = 0;
 		int yestareWeekDay = 0;
 		
-		int y = yen*loa;
+		int y = (yen-1)*144 + loa;
 		// calculate day of march of year 'y' in which loa begins
 		loaBeg = this.loaBeginingDay(y);
 		// calculate if is leap loa
-		isLeapLoa = this.leapLoa(loa);
+		isLeapLoa = this.checkIfLeapLoa(loa);
 		// calculate current month and day of month
-		int[] periodInfo = this.periodAndDayInPeriod(dayOfLoa, isLeapLoa);
+		int[] periodInfo = this.calculatePeriodAndDayInPeriod(dayOfLoa, isLeapLoa);
 		period = periodInfo[0];
 		dayOfPeriod = periodInfo[1];
 		// calculate current week in month (if any), and day of week
 		if(this.periodIsMonth(period)) {
 			isMonth = true;
-			month = this.monthFromPeriod(period);
+			month = this.calculateMonthFromPeriod(period);
 		}
-		int[] weekInfo = this.weekAndDayOfWeek(loa, dayOfLoa);
+		int[] weekInfo = this.calculateWeekAndDayOfWeek(loa, dayOfLoa);
 		weekOfPeriod = weekInfo[0];
 		dayOfWeek = weekInfo[1];
 		yestareWeekDay = weekInfo[2];
@@ -423,10 +485,10 @@ public class ImladrisCalendar {
 		int loa = this.getLoa();
 		int dayOfLoa = this.getDayOfLoa();
 		GregorianCalendar cal = this.getGregorian();
-		cal.set(GregorianCalendar.YEAR, yen*loa);
+		cal.set(GregorianCalendar.YEAR, (yen-1)*144 + loa);
 		cal.set(GregorianCalendar.MONTH, GregorianCalendar.MARCH);
 		cal.set(GregorianCalendar.DAY_OF_MONTH, this.getLoaBeginingDay());
-		cal.add(GregorianCalendar.DAY_OF_YEAR, dayOfLoa);
+		cal.add(GregorianCalendar.DAY_OF_YEAR, dayOfLoa-1);
 	}
 	private void calculate(GregorianCalendar cal) {
 		// initialize data variables
@@ -453,25 +515,25 @@ public class ImladrisCalendar {
 			loaBeg = this.loaBeginingDay(y);
 		}
 		// calculate yen
-		yen = this.calcYen(y);
+		yen = this.calculateYen(y);
 		// calculate loa
-		loa = this.calcLoa(y);
+		loa = this.calculateLoa(y);
 		// calculate if is leap loa
-		isLeapLoa = this.leapLoa(loa);
+		isLeapLoa = this.checkIfLeapLoa(loa);
 		// get amount of days of ongoing loa
 		loaCal.set(GregorianCalendar.YEAR, y);
 		loaCal.set(GregorianCalendar.DAY_OF_MONTH, loaBeg);
 		daysOfLoa = this.daysBetweenGregorian(loaCal, cal);
 		// calculate current month and day of month
-		int[] periodInfo = this.periodAndDayInPeriod(daysOfLoa, isLeapLoa);
+		int[] periodInfo = this.calculatePeriodAndDayInPeriod(daysOfLoa, isLeapLoa);
 		period = periodInfo[0];
 		dayOfPeriod = periodInfo[1];
 		// calculate current week in month (if any), and day of week
 		if(this.periodIsMonth(period)) {
 			isMonth = true;
-			month = this.monthFromPeriod(period);
+			month = this.calculateMonthFromPeriod(period);
 		}
-		int[] weekInfo = this.weekAndDayOfWeek(loa, daysOfLoa);
+		int[] weekInfo = this.calculateWeekAndDayOfWeek(loa, daysOfLoa);
 		weekOfPeriod = weekInfo[0];
 		dayOfWeek = weekInfo[1];
 		yestareWeekDay = weekInfo[2];
@@ -489,7 +551,13 @@ public class ImladrisCalendar {
 		this.setDayOfWeekInt(dayOfWeek);
 		this.setYestareWeekDayInt(yestareWeekDay);
 	}
-	private int calcLoa(int y) {
+	private int calculateYen(int y) {
+		int yen = (int)Math.floor(y/144);
+		if(this.calculateLoa(y) != 144)
+			yen = 1+yen;
+		return yen;
+	}
+	private int calculateLoa(int y) {
 		int loa;
 		if((y != 0) && (y % 144 == 0))
 			loa = 144;
@@ -497,15 +565,9 @@ public class ImladrisCalendar {
 			loa = (y % 144);
 		return loa;
 	}
-	private int calcYen(int y) {
-		int yen = (int)Math.floor(y/144);
-		if(this.calcLoa(y) != 144)
-			yen = 1+yen;
-		return yen;
-	}
 	private int loaBeginingDay(int y) {
-		int loa = this.calcLoa(y);
-		int yen = this.calcYen(y);
+		int loa = this.calculateLoa(y);
+		int yen = this.calculateYen(y);
 		int yestare = this.calculateYestare(yen, loa);
 		return yestare;
 	}
@@ -538,13 +600,13 @@ public class ImladrisCalendar {
 			yestare = yestareMap + 1;
 		return yestare;
 	}
-	private boolean leapLoa(int loa) {
+	private boolean checkIfLeapLoa(int loa) {
 		return loa % 12 == 0;
 	}
-	private int[] periodAndDayInPeriod(int days, boolean leap) {
-		int[] daysInPeriod = {1,54,72,54,3,54,72,54,1};
-		if(leap) // if is leap loa, add 3 days to Enderi
-			daysInPeriod[4] = 6;
+	private int[] calculatePeriodAndDayInPeriod(int days, boolean leap) {
+		int[] daysInPeriod = ImladrisCalendar.LENGTH_OF_PERIODS;
+		if(leap)
+			daysInPeriod = ImladrisCalendar.LENGTH_OF_PERIODS_LEAP;
 		int period = 1;
 		boolean end = false;
 		while(!end && (period < 10)) {
@@ -562,10 +624,10 @@ public class ImladrisCalendar {
 	private boolean periodIsMonth(int period) {
 		return (period > 1 && period < 5) || (period > 5 && period < 9);
 	}
-	private int monthFromPeriod(int period) {
+	private int calculateMonthFromPeriod(int period) {
 		return (period < 4)? period - 1 : period - 2; 
 	}
-	private int[] weekAndDayOfWeek(int loa, int dayOfLoa) {
+	private int[] calculateWeekAndDayOfWeek(int loa, int dayOfLoa) {
 		// This Loa's Yestare Day Of Week
 		int weekDayOfYestare = ImladrisCalendar.loa0yenIdayOfWeek;
 		// Offset from 24-loa block
@@ -620,6 +682,42 @@ public class ImladrisCalendar {
             }
         }
         return roman;
+	}
+	private int romanCharToInt(char roman) {
+		int num = 0;
+		switch(roman) {
+			case 'M': num = 1000; break;
+			case 'D': num = 500; break;
+			case 'C': num = 100; break;
+			case 'L': num = 50; break;
+			case 'X': num = 10; break;
+			case 'V': num = 5; break;
+			case 'I': num = 1; break;
+		}
+		return num;
+	}
+	private int romanToInt(String roman) {
+		roman = roman.toUpperCase();
+		int arabic = 0;
+		int i = 0;
+		while (i < roman.length()){
+			int number = this.romanCharToInt(roman.charAt(i));
+			i++;
+			if (i == roman.length()){
+				arabic += number;
+			}
+			else{
+				int nextNumber = this.romanCharToInt(roman.charAt(i));
+				if (nextNumber > number) {
+					arabic += (nextNumber - number);
+					i++;
+				}
+				else{
+					arabic += number;
+				}
+			}
+		}
+		return arabic;
 	}
 	
 	public String toString() {
