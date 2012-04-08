@@ -1,6 +1,0 @@
-ImladrisCalendar.java
-Version 1.1 beta
-
-Files:
-src/ImladrisCalendar.java - The class that manages de Calendar itself
-src/NotieImberisseo.java - A class to test the calendar.
