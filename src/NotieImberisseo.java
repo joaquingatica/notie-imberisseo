@@ -2,20 +2,49 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 public class NotieImberisseo {
-
+	
+	private static int random(int min, int max) {
+		return min + (int)(Math.random() * ((max - min) + 1));
+	}
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
 		ImladrisCalendar cal = null;
 		GregorianCalendar gcal = null;
 		
+		/*int[] months = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+		int limit = 20;
+		int randYear, randMonth, randDay;
+		for(int i = 0; i < limit; i++) {
+			randYear = random(1, 2299);
+			randMonth = random(0, 11);
+			randDay = random(1, months[randMonth]);
+			cal = new ImladrisCalendar(randYear, randMonth+1, randDay);
+			gcal = cal.getGregorian();
+			
+			// Print Imladris date
+			System.out.print("Imladris date:  ");
+			String str = cal.toString();
+			System.out.print(str);
+			
+			System.out.print(" | ");
+			
+			// Print Gregorian date
+			System.out.print("Gregorian date:  ");
+			SimpleDateFormat sdf = new SimpleDateFormat("EEEEEEEE, MMMMMMMMM d, yyyy");
+			String gstr = sdf.format(gcal.getTime());
+			System.out.println(gstr);
+		}*/
+		
 		/* Leave ONLY the desired constructor uncommented to test */
-		cal = new ImladrisCalendar();
+		//cal = new ImladrisCalendar();
 		//cal = new ImladrisCalendar(new GregorianCalendar());
-		//cal = new ImladrisCalendar(2012, 4, 28);
-		//cal = new ImladrisCalendar("XIV", 140, ImladrisCalendar.YESTARE);
-		//cal = new ImladrisCalendar("XIV", 140, ImladrisCalendar.COIRE, 1);
+		//cal = new ImladrisCalendar(2012, 4, 13);
+		cal = new ImladrisCalendar("XIV", 141, ImladrisCalendar.YESTARE);
+		//cal = new ImladrisCalendar("XIV", 140, ImladrisCalendar.TUILE, 4);
 
 		gcal = cal.getGregorian();
 		
