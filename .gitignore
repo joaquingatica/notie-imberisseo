@@ -4,6 +4,5 @@ bin/
 .project
 *~
 TODO
-src/*.java
-!src/NotieImberisseo.java
-!src/ImladrisCalendar.java
+/*.zip
+/*.jar
