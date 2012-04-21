@@ -1,7 +1,5 @@
 bin/
 .settings/
-.classpath
-.project
 *~
 TODO
 /*.zip
