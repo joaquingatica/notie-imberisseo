@@ -1,6 +1,23 @@
 package main;
 
+import geo.google.GeoAddressStandardizer;
+import geo.google.GeoException;
+import geo.google.datamodel.GeoCoordinate;
+
 import java.awt.EventQueue;
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.TimeZone;
+
+import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
+import com.luckycatlabs.sunrisesunset.dto.Location;
+<<<<<<< HEAD
+
+import config.Config;
+=======
+>>>>>>> f430aa0... Added test for geolocation
+
+import config.Config;
 
 
 public class NotieImberisseo {
@@ -10,11 +27,40 @@ public class NotieImberisseo {
 	 */
 	public static void main(String[] args) {
 		
+		Location location = null;
+		
+<<<<<<< HEAD
+<<<<<<< HEAD
+		GeoAddressStandardizer st = new GeoAddressStandardizer(new Config().getGoogleMapsApiKey());
+=======
+		GeoAddressStandardizer st = new GeoAddressStandardizer("AIzaSyAK9hXpQhpoPoF9hSEHIBcqACmJcbHtW8c");
+>>>>>>> f430aa0... Added test for geolocation
+=======
+		GeoAddressStandardizer st = new GeoAddressStandardizer(new Config().getGoogleMapsApiKey());
+>>>>>>> 1b9cdc1... Added config files and removes old libs
+		try {
+			GeoCoordinate geo = st.standardizeToGeoCoordinate("Montevideo, Uruguay");
+			double latitude = geo.getLatitude();
+			double longitude = geo.getLongitude();
+			location = new Location(Double.toString(latitude), Double.toString(longitude));
+			System.out.println(latitude);
+			System.out.println(longitude);
+		} catch (GeoException e) {
+			System.out.println(e.getMessage());
+			location = new Location("-34.89030", "-56.06254");
+		}
+		
+		TimeZone tz = TimeZone.getDefault();
+		SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, tz.getID());
+		String sunset = calculator.getOfficialSunsetForDate(Calendar.getInstance())+":00";
+		Time time = Time.valueOf(sunset);
+		System.out.println(time);
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					MainWindow window = MainWindow.getInstance();
-					window.getFrame().setVisible(true);
+					//window.getFrame().setVisible(true);
 					window.getFrame().setTitle("Notië Imberissëo");
 				} catch (Exception e) {
 					e.printStackTrace();

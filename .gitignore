@@ -6,3 +6,4 @@ bin/
 TODO
 /*.zip
 /*.jar
+/src/config/Config.java

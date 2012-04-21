@@ -27,6 +27,9 @@ package lib;
 
 import java.util.GregorianCalendar;
 
+import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
+import com.luckycatlabs.sunrisesunset.dto.Location;
+
 public class ImladrisCalendar {
 	
 	/**
@@ -91,6 +94,12 @@ public class ImladrisCalendar {
 	};
 	
 	/**
+	 * Libraries
+	 */
+	private Location location;
+	private SunriseSunsetCalculator sunsetCalculator;
+	
+	/**
 	 * ATRIBUTES
 	 */
 	private GregorianCalendar gregorian;
@@ -115,6 +124,19 @@ public class ImladrisCalendar {
 	/**
 	 * Getters and setters
 	 */
+	public Location getLocation() {
+		return location;
+	}
+	public SunriseSunsetCalculator getSunsetCalculator() {
+		return sunsetCalculator;
+	}
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+	public void setSunsetCalculator(SunriseSunsetCalculator sunsetCalculator) {
+		this.sunsetCalculator = sunsetCalculator;
+	}
+	
 	public GregorianCalendar getGregorian() {
 		return gregorian;
 	}
