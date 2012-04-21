@@ -11,11 +11,6 @@ import java.util.TimeZone;
 
 import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.luckycatlabs.sunrisesunset.dto.Location;
-<<<<<<< HEAD
-
-import config.Config;
-=======
->>>>>>> f430aa0... Added test for geolocation
 
 import config.Config;
 
@@ -29,15 +24,8 @@ public class NotieImberisseo {
 		
 		Location location = null;
 		
-<<<<<<< HEAD
-<<<<<<< HEAD
 		GeoAddressStandardizer st = new GeoAddressStandardizer(new Config().getGoogleMapsApiKey());
-=======
-		GeoAddressStandardizer st = new GeoAddressStandardizer("AIzaSyAK9hXpQhpoPoF9hSEHIBcqACmJcbHtW8c");
->>>>>>> f430aa0... Added test for geolocation
-=======
-		GeoAddressStandardizer st = new GeoAddressStandardizer(new Config().getGoogleMapsApiKey());
->>>>>>> 1b9cdc1... Added config files and removes old libs
+		
 		try {
 			GeoCoordinate geo = st.standardizeToGeoCoordinate("Montevideo, Uruguay");
 			double latitude = geo.getLatitude();
