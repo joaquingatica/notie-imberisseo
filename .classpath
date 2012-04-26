@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="lib/geogoogle-libs/jaxb-impl-2.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/geogoogle-libs/jsr173_api-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/geogoogle-libs/stax-api-1.0-2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ImladrisCalendar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
