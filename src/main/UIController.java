@@ -119,14 +119,16 @@ public class UIController {
 		return place;
 	}
 	public Time calculateSunsetForActualLocationAndTime() {
-		Time time = this.calculateSunsetForActualLocation(new GregorianCalendar());
+		Preferences data = this.getCurrentPreferences();
+		TimeZone tz = TimeZone.getTimeZone(data.get(FIELD_TIMEZONE, DEF_TIMEZONE));
+		Time time = this.calculateSunsetForActualLocation(new GregorianCalendar(tz));
 		return time;
 	}
 	public Time calculateSunsetForActualLocation(Calendar calendar) {
 		Preferences data = this.getCurrentPreferences();
 		String city = data.get(FIELD_CITY, DEF_CITY);
 		String country = data.get(FIELD_COUNTRY, DEF_COUNTRY);
-		Time time = this.calculateSunset(Calendar.getInstance(), city, country);
+		Time time = this.calculateSunset(calendar, city, country);
 		return time;
 	}
 	public Time calculateSunset(Calendar calendar, String city, String country) {
@@ -162,8 +164,9 @@ public class UIController {
 		Preferences data = this.getCurrentPreferences();
 		String city = data.get(FIELD_CITY, DEF_CITY);
 		String country = data.get(FIELD_COUNTRY, DEF_COUNTRY);
-		Time time = this.calculateSunset(Calendar.getInstance(), city, country);
-		GregorianCalendar gcal = new GregorianCalendar();
+		TimeZone tz = TimeZone.getTimeZone(data.get(FIELD_TIMEZONE, DEF_TIMEZONE));
+		GregorianCalendar gcal = new GregorianCalendar(tz);
+		Time time = this.calculateSunsetForActualLocation(gcal);
 		ImladrisCalendar cal;
 		String sunsetStr = "";
 		String locationInfo = "";
