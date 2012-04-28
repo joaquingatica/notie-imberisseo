@@ -3,6 +3,7 @@ package main;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
@@ -12,6 +13,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
@@ -30,8 +32,10 @@ public class UIController {
 
 	private static final String FIELD_CITY = "city";
 	private static final String FIELD_COUNTRY = "country";
+	private static final String FIELD_TIMEZONE = "timezone";
 	private static final String DEF_CITY = "Montevideo";
 	private static final String DEF_COUNTRY = "Uruguay";
+	private static final String DEF_TIMEZONE = TimeZone.getDefault().getID();
 	
 	private UI ui;
 	private Preferences preferences = null;
@@ -109,8 +113,16 @@ public class UIController {
 				double latitude = geo.getLatitude();
 				double longitude = geo.getLongitude();
 				location = new Location(Double.toString(latitude), Double.toString(longitude));
-				TimeZone tz = TimeZone.getDefault();
-				SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, tz.getID());
+				Preferences data = this.getCurrentPreferences();
+				String timezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
+				/*TimeZone tz;
+				if(timezone.length() == 0) {
+					tz = TimeZone.getDefault();
+				}
+				else {
+					tz = TimeZone.getTimeZone(timezone);
+				}*/
+				SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, timezone);
 				String sunset = calculator.getOfficialSunsetForDate(calendar)+":00";
 				time = Time.valueOf(sunset);
 			} catch (GeoException e) {
@@ -136,7 +148,7 @@ public class UIController {
 			sunsetStr = " (Sunset at: "+time.toString()+")";
 			locationInfo = this.makeLocationString(city, country);
 			if(locationInfo.length() > 0) {
-				locationInfo = "("+locationInfo+", TZ:"+TimeZone.getDefault().getID()+")";
+				locationInfo = "(Loc.: "+locationInfo+" | TZ: "+data.get(FIELD_TIMEZONE, DEF_TIMEZONE)+")";
 			}
 		}
 		String gstr = this.gregorianToString(gcal);
@@ -321,6 +333,7 @@ public class UIController {
 		JTextField loa = window.getLoa();
 		JComboBox period = window.getPeriod();
 		JComboBox day = window.getDayOfLoa();
+		JCheckBox beforeMidnight = window.getBeforeMidnight();
 		JTextPane result = window.getResGregorian();
 		int yenNum = yen.getSelectedIndex() + 1;
 		String value = loa.getText();
@@ -348,6 +361,9 @@ public class UIController {
 					}
 					if(success) {
 						GregorianCalendar gcal = cal.getGregorian();
+						if(beforeMidnight.isSelected()) {
+							gcal.add(GregorianCalendar.DAY_OF_YEAR, -1);
+						}
 						String gstr = this.gregorianToString(gcal);
 						result.setText(gstr);
 					}
@@ -370,16 +386,25 @@ public class UIController {
 	private void fillSettingsForm() {
 		UI ui = this.getUi();
 		Preferences data = this.getCurrentPreferences();
+		/* Country and city */
 		String city = data.get(FIELD_CITY, DEF_CITY);
 		String country = data.get(FIELD_COUNTRY, DEF_COUNTRY);
 		ui.getCity().setText(city);
 		ui.getCountry().setText(country);
+		/* Time Zone */
+		String[] tzs = TimeZone.getAvailableIDs();
+		Arrays.sort(tzs);
+		JList list = ui.getTimeZone();
+		list.setListData(tzs);
+		String timezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
+		list.setSelectedValue(timezone, true);
 	}
 	public void saveSettings() {
 		UI ui = this.getUi();
 		Preferences data = this.getCurrentPreferences();
 		data.put(FIELD_CITY, ui.getCity().getText());
 		data.put(FIELD_COUNTRY, ui.getCountry().getText());
+		data.put(FIELD_TIMEZONE, (String)ui.getTimeZone().getSelectedValue());
 		this.showDateOfToday();
 	}
 	

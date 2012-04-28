@@ -23,15 +23,26 @@ import javax.swing.JTextPane;
 import java.awt.Font;
 import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
+
+import java.awt.Desktop;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Color;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
-public class UI {
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
+import javax.swing.JEditorPane;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+
+public class UI implements HyperlinkListener {
 	
 	/* FRAME */
-	private JFrame frame;
+	private JFrame frmNotiImberisso;
 	
 	/* GREGORIAN to IMLADRIS */
 	private JTextField year;
@@ -46,13 +57,18 @@ public class UI {
 	private JComboBox yen;
 	private JComboBox period;
 	private JComboBox dayOfLoa;
+	private JCheckBox beforeMidnight;
 	private JButton toGregorian;
 	private JTextPane resGregorian;
 	
 	/* SETTINGS */
 	private JTextField city;
 	private JTextField country;
+	private JList timeZone;
 	private JLabel saveResult;
+	
+	/* ABOUT */
+	private JEditorPane aboutEditor;
 	
 	/* TODAY */
 	private JLabel locationInfo;
@@ -61,10 +77,10 @@ public class UI {
 	
 	/* Frame */
 	public JFrame getFrame() {
-		return frame;
+		return frmNotiImberisso;
 	}
 	public void setFrame(JFrame frame) {
-		this.frame = frame;
+		this.frmNotiImberisso = frame;
 	}
 	
 	/* Gregorian to Imladris */
@@ -130,6 +146,12 @@ public class UI {
 	public void setDayOfLoa(JComboBox dayOfLoa) {
 		this.dayOfLoa = dayOfLoa;
 	}
+	public JCheckBox getBeforeMidnight() {
+		return beforeMidnight;
+	}
+	public void setBeforeMidnight(JCheckBox beforeMidnight) {
+		this.beforeMidnight = beforeMidnight;
+	}
 	public JButton getToGregorian() {
 		return toGregorian;
 	}
@@ -155,6 +177,12 @@ public class UI {
 	}
 	public void setCountry(JTextField country) {
 		this.country = country;
+	}
+	public JList getTimeZone() {
+		return timeZone;
+	}
+	public void setTimeZone(JList timeZone) {
+		this.timeZone = timeZone;
 	}
 	public JLabel getSaveResult() {
 		return saveResult;
@@ -196,23 +224,23 @@ public class UI {
 	private UI() {
 		initialize();
 	}
-
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		
-		frame = new JFrame();
-		frame.setTitle("Notië Imberissëo 1.0 beta");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(520, 300);
-		frame.setLocation(300,200);
+		frmNotiImberisso = new JFrame();
+		frmNotiImberisso.setTitle("Notië Imberissëo");
+		frmNotiImberisso.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmNotiImberisso.setSize(520, 310);
+		frmNotiImberisso.setLocation(300,200);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{520, 0};
 		gridBagLayout.rowHeights = new int[]{227, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
+		frmNotiImberisso.getContentPane().setLayout(gridBagLayout);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
@@ -220,7 +248,7 @@ public class UI {
 		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_tabbedPane.gridx = 0;
 		gbc_tabbedPane.gridy = 0;
-		frame.getContentPane().add(tabbedPane, gbc_tabbedPane);
+		frmNotiImberisso.getContentPane().add(tabbedPane, gbc_tabbedPane);
 		
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("To Imladris Reckoning", null, panel_1, "Convert from Gregorian to Imladris Reckoning");
@@ -313,6 +341,7 @@ public class UI {
 		panel_1.add(lblResultingImladrisDate, "2, 10, 2, 1, fill, fill");
 		
 		resImladris = new JTextPane();
+		resImladris.setEditable(false);
 		panel_1.add(resImladris, "5, 10, 13, 1, fill, fill");
 		
 		JLabel lblFormat = new JLabel("(Format: Weekday, Period [Day#], Yén Loa)");
@@ -419,6 +448,10 @@ public class UI {
 				UIController.getInstance().convertToGregorian();
 			}
 		});
+		
+		beforeMidnight = new JCheckBox("Before midnight");
+		beforeMidnight.setFont(new Font("Dialog", Font.PLAIN, 12));
+		panel_2.add(beforeMidnight, "6, 6, 9, 1, fill, fill");
 		toGregorian.setEnabled(false);
 		panel_2.add(toGregorian, "16, 6, 7, 1, fill, fill");
 		
@@ -426,6 +459,7 @@ public class UI {
 		panel_2.add(lblNewLabel_1, "2, 10, 3, 1, fill, fill");
 		
 		resGregorian = new JTextPane();
+		resGregorian.setEditable(false);
 		panel_2.add(resGregorian, "6, 10, 17, 1, fill, fill");
 		
 		JLabel lblNewLabel_2 = new JLabel("(Format: Weekday, Month Day, Year)");
@@ -439,7 +473,11 @@ public class UI {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(61dlu;default)"),},
+				ColumnSpec.decode("max(61dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(112dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -450,7 +488,17 @@ public class UI {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(16dlu;default):grow"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblLocation = new JLabel("Location");
+		panel.add(lblLocation, "4, 2, center, center");
+		
+		JLabel lblTimezone = new JLabel("Time Zone");
+		panel.add(lblTimezone, "8, 2, center, center");
 		
 		JLabel lblCity = new JLabel("City:");
 		panel.add(lblCity, "2, 4, right, fill");
@@ -459,6 +507,14 @@ public class UI {
 		panel.add(city, "4, 4, fill, fill");
 		city.setColumns(10);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		panel.add(scrollPane, "8, 4, 1, 9, fill, fill");
+		
+		timeZone = new JList();
+		scrollPane.setViewportView(timeZone);
+		timeZone.setBorder(null);
+		timeZone.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		JLabel lblCountry = new JLabel("Country:");
 		panel.add(lblCountry, "2, 6, right, fill");
 		
@@ -466,24 +522,65 @@ public class UI {
 		panel.add(country, "4, 6, fill, fill");
 		country.setColumns(10);
 		
+		saveResult = new JLabel("");
+		saveResult.setForeground(Color.GREEN);
+		panel.add(saveResult, "2, 10, 3, 1, right, fill");
+		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UIController.getInstance().saveSettings();
 			}
 		});
-		panel.add(btnSave, "4, 8, right, fill");
+		panel.add(btnSave, "4, 12, right, fill");
 		
-		saveResult = new JLabel("");
-		saveResult.setForeground(Color.GREEN);
-		panel.add(saveResult, "2, 10, 3, 1, right, fill");
+		JPanel panel_4 = new JPanel();
+		tabbedPane.addTab("About", null, panel_4, null);
+		GridBagLayout gbl_panel_4 = new GridBagLayout();
+		gbl_panel_4.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_4.rowHeights = new int[]{23, 0, 0, 0};
+		gbl_panel_4.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_4.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		panel_4.setLayout(gbl_panel_4);
+		
+		JLabel lblNotiImberisso = new JLabel("Notië Imberissëo");
+		lblNotiImberisso.setFont(new Font("Dialog", Font.BOLD, 12));
+		GridBagConstraints gbc_lblNotiImberisso = new GridBagConstraints();
+		gbc_lblNotiImberisso.anchor = GridBagConstraints.SOUTH;
+		gbc_lblNotiImberisso.gridwidth = 19;
+		gbc_lblNotiImberisso.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNotiImberisso.gridx = 0;
+		gbc_lblNotiImberisso.gridy = 0;
+		panel_4.add(lblNotiImberisso, gbc_lblNotiImberisso);
+		
+		JLabel lbltvbwtrn = new JLabel("5^1T`V `Bw$7T,R`H");
+		lbltvbwtrn.setFont(new Font("Tengwar Annatar", Font.BOLD, 14));
+		GridBagConstraints gbc_lbltvbwtrn = new GridBagConstraints();
+		gbc_lbltvbwtrn.gridwidth = 19;
+		gbc_lbltvbwtrn.insets = new Insets(0, 0, 5, 0);
+		gbc_lbltvbwtrn.gridx = 0;
+		gbc_lbltvbwtrn.gridy = 1;
+		panel_4.add(lbltvbwtrn, gbc_lbltvbwtrn);
+		
+		aboutEditor = new JEditorPane();
+		aboutEditor.setContentType("text/html");
+		aboutEditor.setEditable(false);
+		aboutEditor.setText("<font size=\"3\">By <b>Erutulco Eruntano</b><br />\nContact: <a href=\"http://twitter.com/joaquingatica\">@joaquingatica</a> or <a href=\"mailto:erutulco@quenya101.com\">erutulco@quenya101.com</a><br />\n&copy; Tuilë, XIV 140<br /></font>\n<br />\n<font size=\"2\">Open Source Software hosted at: <a href=\"http://github.com/joaquingatica/Notie-Imberisseo\">github.com/joaquingatica/Notie-Imberisseo</a><br />\nFor reference about the <b>calendar</b>, visit Quenya101 Language Institute:<br />\n<a href=\"http://www.quenya101.com\">www.quenya101.com</a><br />\n<br />\nSpecial thanks to <b>Erunno Alcarinollo</b>.</font>");
+		aboutEditor.addHyperlinkListener(this);
+		GridBagConstraints gbc_dtrpnF = new GridBagConstraints();
+		gbc_dtrpnF.gridwidth = 19;
+		gbc_dtrpnF.insets = new Insets(0, 0, 0, 5);
+		gbc_dtrpnF.fill = GridBagConstraints.BOTH;
+		gbc_dtrpnF.gridx = 0;
+		gbc_dtrpnF.gridy = 2;
+		panel_4.add(aboutEditor, gbc_dtrpnF);
 		
 		JPanel panel_3 = new JPanel();
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
 		gbc_panel_3.fill = GridBagConstraints.BOTH;
 		gbc_panel_3.gridx = 0;
 		gbc_panel_3.gridy = 1;
-		frame.getContentPane().add(panel_3, gbc_panel_3);
+		frmNotiImberisso.getContentPane().add(panel_3, gbc_panel_3);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{0, 401, 0};
 		gbl_panel_3.rowHeights = new int[]{0, 24, 0, 0};
@@ -517,6 +614,8 @@ public class UI {
 		panel_3.add(lblGregorian, gbc_lblGregorian);
 		
 		todayGregorian = new JTextPane();
+		todayGregorian.setEditable(false);
+		todayGregorian.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_todayGregorian = new GridBagConstraints();
 		gbc_todayGregorian.insets = new Insets(0, 0, 5, 0);
 		gbc_todayGregorian.fill = GridBagConstraints.BOTH;
@@ -534,11 +633,29 @@ public class UI {
 		panel_3.add(lblImladris, gbc_lblImladris);
 		
 		todayImladris = new JTextPane();
+		todayImladris.setEditable(false);
+		todayImladris.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_todayImladris = new GridBagConstraints();
 		gbc_todayImladris.fill = GridBagConstraints.BOTH;
 		gbc_todayImladris.gridx = 1;
 		gbc_todayImladris.gridy = 2;
 		panel_3.add(todayImladris, gbc_todayImladris);
 	}
-
+	
+	@Override
+	public void hyperlinkUpdate(HyperlinkEvent event) {
+		if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+        	if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                try {
+                    desktop.browse(event.getURL().toURI());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+            }
+	    }
+	}
+	
 }
