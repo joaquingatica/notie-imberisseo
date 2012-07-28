@@ -260,7 +260,7 @@ public class UI implements HyperlinkListener {
 		frmNotiImberisso = new JFrame();
 		frmNotiImberisso.setTitle("Notië Imberissëo");
 		frmNotiImberisso.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmNotiImberisso.setSize(520, 310);
+		frmNotiImberisso.setSize(600, 380);
 		frmNotiImberisso.setLocation(300,200);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{520, 0};
