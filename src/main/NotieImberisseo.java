@@ -39,7 +39,7 @@ public class NotieImberisseo {
 			public void run() {
 				try {
 					UIController uic = UIController.getInstance();
-					uic.initializeWindow();
+					uic.initializeWindow(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

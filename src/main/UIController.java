@@ -44,6 +44,8 @@ import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+import org.apache.commons.httpclient.params.HttpClientParams;
+
 import lang.Lang;
 import lang.LangManager;
 
@@ -64,10 +66,12 @@ public class UIController {
 	private static final String FIELD_COUNTRY = "country";
 	private static final String FIELD_LANG = "language";
 	private static final String FIELD_TIMEZONE = "timezone";
+	private static final String FIELD_CACHE_SUNSET = "sunset";
 	private static final String DEF_CITY = "Montevideo";
 	private static final String DEF_COUNTRY = "Uruguay";
 	private static final String DEF_LANG = "eng";
 	private static final String DEF_TIMEZONE = TimeZone.getDefault().getID();
+	private static final String DEF_CACHE_SUNSET = "";
 	
 	private UI ui;
 	private Preferences preferences = null;
@@ -108,9 +112,9 @@ public class UIController {
 		this.setLangManager(langManager);
 	}
 	
-	public void initializeWindow() {
+	public void initializeWindow(boolean useCacheSunset) {
 		this.createWindow();
-		this.fillData();
+		this.fillData(useCacheSunset);
 	}
 	public void disposeWindow() {
 		UI ui = UI.getInstance();
@@ -119,7 +123,7 @@ public class UIController {
 	}
 	public void reloadWindow() {
 		this.disposeWindow();
-		this.initializeWindow();
+		this.initializeWindow(true);
 	}
 	
 	private void createWindow() {
@@ -127,8 +131,8 @@ public class UIController {
 		ui.getFrame().setVisible(true);
 		this.setUi(ui);
 	}
-	private void fillData() {
-		this.showDateOfToday();
+	private void fillData(boolean useCacheSunset) {
+		this.showDateOfToday(useCacheSunset);
 		this.fillSettingsForm();
 	}
 	
@@ -147,55 +151,64 @@ public class UIController {
 		}
 		return place;
 	}
-	public Time calculateSunsetForActualLocationAndTime() {
+	public Time calculateSunsetForActualLocationAndTime(boolean useCacheSunset) {
 		Preferences data = this.getCurrentPreferences();
 		TimeZone tz = TimeZone.getTimeZone(data.get(FIELD_TIMEZONE, DEF_TIMEZONE));
-		Time time = this.calculateSunsetForActualLocation(new GregorianCalendar(tz));
+		Time time = this.calculateSunsetForActualLocation(new GregorianCalendar(tz), useCacheSunset);
 		return time;
 	}
-	public Time calculateSunsetForActualLocation(Calendar calendar) {
+	public Time calculateSunsetForActualLocation(Calendar calendar, boolean useCacheSunset) {
 		Preferences data = this.getCurrentPreferences();
 		String city = data.get(FIELD_CITY, DEF_CITY);
 		String country = data.get(FIELD_COUNTRY, DEF_COUNTRY);
-		Time time = this.calculateSunset(calendar, city, country);
+		Time time = this.calculateSunset(calendar, city, country, useCacheSunset);
 		return time;
 	}
-	public Time calculateSunset(Calendar calendar, String city, String country) {
+	public Time calculateSunset(Calendar calendar, String city, String country, boolean useCacheSunset) {
 		Time time = null;
-		String place = this.makeLocationString(city, country);
-		if(place.length() > 0) {
-			GeoAddressStandardizer st = new GeoAddressStandardizer(new Config().getGoogleMapsApiKey());
-			Location location = null;
-			try {
-				GeoCoordinate geo = st.standardizeToGeoCoordinate(place);
-				double latitude = geo.getLatitude();
-				double longitude = geo.getLongitude();
-				location = new Location(Double.toString(latitude), Double.toString(longitude));
-				Preferences data = this.getCurrentPreferences();
-				String timezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
-				/*TimeZone tz;
-				if(timezone.length() == 0) {
-					tz = TimeZone.getDefault();
+		boolean useCache = useCacheSunset;
+		Preferences data = this.getCurrentPreferences();
+		if(!useCache) {
+			String place = this.makeLocationString(city, country);
+			if(place.length() > 0) {
+				GeoAddressStandardizer st = new GeoAddressStandardizer(Config.getGoogleMapsApiKey(), Config.getRateLimitInterval());
+				HttpClientParams params = new HttpClientParams();
+			    params.setSoTimeout(Config.getConnectionTimeout());
+			    st.setHttpClientParams(params);
+				Location location = null;
+				try {
+					GeoCoordinate geo = st.standardizeToGeoCoordinate(place);
+					double latitude = geo.getLatitude();
+					double longitude = geo.getLongitude();
+					location = new Location(Double.toString(latitude), Double.toString(longitude));
+					String timezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
+					SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, timezone);
+					String sunset = calculator.getOfficialSunsetForDate(calendar)+":00";
+					data.put(FIELD_CACHE_SUNSET, sunset);
+					time = Time.valueOf(sunset);
+				} catch (GeoException e) {
+					useCache = true;
 				}
-				else {
-					tz = TimeZone.getTimeZone(timezone);
-				}*/
-				SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, timezone);
-				String sunset = calculator.getOfficialSunsetForDate(calendar)+":00";
-				time = Time.valueOf(sunset);
-			} catch (GeoException e) {
-				System.out.println(e.getMessage());
+			}
+			else {
+				useCache = true;
+			}
+		}
+		if(useCache) {
+			String cacheSunset = data.get(FIELD_CACHE_SUNSET, DEF_CACHE_SUNSET);
+			if(!cacheSunset.isEmpty()) {
+				time = Time.valueOf(cacheSunset);
 			}
 		}
 		return time;
 	}
-	public void showDateOfToday() {
+	public void showDateOfToday(boolean useCacheSunset) {
 		Preferences data = this.getCurrentPreferences();
 		String city = data.get(FIELD_CITY, DEF_CITY);
 		String country = data.get(FIELD_COUNTRY, DEF_COUNTRY);
 		TimeZone tz = TimeZone.getTimeZone(data.get(FIELD_TIMEZONE, DEF_TIMEZONE));
 		GregorianCalendar gcal = new GregorianCalendar(tz);
-		Time time = this.calculateSunsetForActualLocation(gcal);
+		Time time = this.calculateSunsetForActualLocation(gcal, useCacheSunset);
 		ImladrisCalendar cal;
 		String sunsetStr = "";
 		String locationInfo = "";
@@ -204,10 +217,10 @@ public class UIController {
 		}
 		else {
 			cal = new ImladrisCalendar(time, gcal);
-			sunsetStr = " (Sunset at: "+time.toString()+")";
+			sunsetStr = " "+Lang.punctuation.parenthesis_open+"Sunset at: "+time.toString()+Lang.punctuation.parenthesis_close;
 			locationInfo = this.makeLocationString(city, country);
 			if(locationInfo.length() > 0) {
-				locationInfo = "(Loc.: "+locationInfo+" | TZ: "+data.get(FIELD_TIMEZONE, DEF_TIMEZONE)+")";
+				locationInfo = Lang.punctuation.parenthesis_open+Lang.common.location_label+Lang.punctuation.double_dot+" "+locationInfo+" "+Lang.punctuation.pipe+" "+Lang.common.timezone_label+Lang.punctuation.double_dot+" "+data.get(FIELD_TIMEZONE, DEF_TIMEZONE)+Lang.punctuation.parenthesis_close;
 			}
 		}
 		String gstr = this.gregorianToString(gcal);
@@ -295,7 +308,7 @@ public class UIController {
 						ImladrisCalendar cal;
 						if(afterSunset.isSelected()) {
 							GregorianCalendar gcal = new GregorianCalendar(yearNum, monthNum, dayNum);
-							Time time = this.calculateSunsetForActualLocation(gcal);
+							Time time = this.calculateSunsetForActualLocation(gcal, true);
 							cal = new ImladrisCalendar(time, yearNum, monthNum, dayNum, time.getHours(), time.getMinutes(), time.getSeconds());
 						}
 						else {
@@ -466,10 +479,26 @@ public class UIController {
 	public void saveSettings() {
 		UI ui = this.getUi();
 		Preferences data = this.getCurrentPreferences();
+		boolean updateDate = false;
 		/* City, country, tz */
-		data.put(FIELD_CITY, ui.getCity().getText());
-		data.put(FIELD_COUNTRY, ui.getCountry().getText());
-		data.put(FIELD_TIMEZONE, (String)ui.getTimeZone().getSelectedValue());
+		String savedCity = data.get(FIELD_CITY, DEF_CITY);
+		String newCity = ui.getCity().getText();
+		if(!savedCity.equals(newCity)) {
+			data.put(FIELD_CITY, newCity);
+			updateDate = true;
+		}
+		String savedCountry = data.get(FIELD_COUNTRY, DEF_COUNTRY);
+		String newCountry = ui.getCountry().getText();
+		if(!savedCountry.equals(newCountry)) {
+			data.put(FIELD_COUNTRY, newCountry);
+			updateDate = true;
+		}
+		String savedTimezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
+		String newTimezone = (String)ui.getTimeZone().getSelectedValue();
+		if(!savedTimezone.equals(newTimezone)) {
+			data.put(FIELD_TIMEZONE, newTimezone);
+			updateDate = true;
+		}
 		/* Lang */
 		LangManager langManager = LangManager.getInstance();
 		String shortLang = LangManager.getLanguagesShort()[Arrays.asList(LangManager.getLanguagesPrintable()).indexOf((String)ui.getLangCombo().getSelectedItem())];
@@ -478,9 +507,12 @@ public class UIController {
 			langManager.defineLang(shortLang);
 			data.put(FIELD_LANG, shortLang);
 			this.reloadWindow();
+			updateDate = false;
 		}
 		/* Update today's date */
-		this.showDateOfToday();
+		if(updateDate) {
+			this.showDateOfToday(false);
+		}
 	}
 	
 	/************ OTHER *****************/

@@ -272,6 +272,7 @@ public class UI implements HyperlinkListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		FontManager.registerAvailableFonts();
 		
 		frmNotiImberisso = new JFrame();
 		frmNotiImberisso.setTitle(Lang.common.app_title);
@@ -578,7 +579,7 @@ public class UI implements HyperlinkListener {
 		saveResult.setForeground(Color.GREEN);
 		panel.add(saveResult, "2, 12, 3, 1, right, fill");
 		
-		JButton btnSave = new JButton("Save");
+		JButton btnSave = new JButton(Lang.settings_tab.save);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UIController.getInstance().saveSettings();
@@ -595,7 +596,7 @@ public class UI implements HyperlinkListener {
 		gbl_panel_4.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel_4.setLayout(gbl_panel_4);
 		
-		JLabel lblNotiImberisso = new JLabel(Lang.about_tab.app_name);
+		JLabel lblNotiImberisso = new JLabel(Lang.about_tab.app_name+" "+Lang.common.app_version);
 		lblNotiImberisso.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblNotiImberisso = new GridBagConstraints();
 		gbc_lblNotiImberisso.anchor = GridBagConstraints.SOUTH;
@@ -606,14 +607,7 @@ public class UI implements HyperlinkListener {
 		panel_4.add(lblNotiImberisso, gbc_lblNotiImberisso);
 		
 		JLabel lbltvbwtrn = new JLabel(Lang.about_tab.tengwar_name);
-		Font tengwarFont = null;
-		try {
-			tengwarFont = FontManager.getTrueTypeFont("tngan.ttf");
-		} catch (Exception e) {
-			tengwarFont = new Font("Tengwar Annatar", Font.BOLD, 14);
-		}
-		tengwarFont = tengwarFont.deriveFont((float)14);
-		tengwarFont = tengwarFont.deriveFont(Font.BOLD);
+		Font tengwarFont = FontManager.getFont("tngan.ttf", "Tengwar Annatar", Font.BOLD, 14);
 		lbltvbwtrn.setFont(tengwarFont);
 		GridBagConstraints gbc_lbltvbwtrn = new GridBagConstraints();
 		gbc_lbltvbwtrn.gridwidth = 19;
@@ -701,6 +695,7 @@ public class UI implements HyperlinkListener {
 		gbc_todayImladris.gridy = 2;
 		panel_3.add(todayImladris, gbc_todayImladris);
 	}
+	
 	
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent event) {

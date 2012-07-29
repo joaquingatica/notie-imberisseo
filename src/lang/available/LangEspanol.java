@@ -44,6 +44,8 @@ public class LangEspanol extends Lang {
 		Lang.punctuation.pipe = "|";
 		/* Common */
 		Lang.common.app_title = "Notië Imberissëo";
+		Lang.common.app_version = "2.1.1";
+		Lang.common.app_version_date = "Lairë 70, XIV 140";
 		Lang.common.current_date_label = "Fecha actual";
 		Lang.common.location_label = "Ubic.";
 		Lang.common.timezone_label = "ZH";
@@ -86,7 +88,15 @@ public class LangEspanol extends Lang {
 		Lang.about_tab.tooltip = "Sobre la application y el autor";
 		Lang.about_tab.app_name = "Notië Imberissëo";
 		Lang.about_tab.tengwar_name = "5^1T`V `Bw$7T,R`H";
-		Lang.about_tab.info = "<font size=\"3\">Por <b>Erutulco Eruntano</b><br />\nContacto: <a href=\"http://twitter.com/joaquingatica\">@joaquingatica</a> o <a href=\"mailto:erutulco@quenya101.com\">erutulco@quenya101.com</a><br />\n&copy; Tuilë, XIV 140<br /></font>\n<br />\n<font size=\"2\">Software Open Source alojado en: <a href=\"http://github.com/joaquingatica/Notie-Imberisseo\">github.com/joaquingatica/Notie-Imberisseo</a><br />\nPor información sobre el <b>calendario</b>, visita Quenya101 Language Institute:<br />\n<a href=\"http://www.quenya101.com\">www.quenya101.com</a><br />\n<br />\nAgradecimientos en especial a <b>Erunno Alcarinollo</b>.</font>";
+		Lang.about_tab.info = "<font size=\"3\">Por <b>Erutulco Eruntano</b><br />" +
+							  "Contacto: <a href=\"http://twitter.com/joaquingatica\">@joaquingatica</a> o <a href=\"mailto:erutulco@quenya101.com\">erutulco@quenya101.com</a><br />" +
+							  "&copy; "+Lang.common.app_version_date+"<br />" +
+						  	  "</font><br />" +
+						  	  "<font size=\"2\">Software Open Source alojado en: <a href=\"http://github.com/joaquingatica/Notie-Imberisseo\">github.com/joaquingatica/Notie-Imberisseo</a><br />" +
+						  	  "Por información sobre el <b>calendario</b>, visita Quenya101 Language Institute:<br />" +
+						  	  "<a href=\"http://www.quenya101.com\">www.quenya101.com</a><br />" +
+						  	  "<br />" +
+						  	  "Agradecimientos en especial a <b>Erunno Alcarinollo</b>.</font>";
 	}
 	
 }

@@ -44,6 +44,8 @@ public class LangEnglish extends Lang {
 		Lang.punctuation.pipe = "|";
 		/* Common */
 		Lang.common.app_title = "Notië Imberissëo";
+		Lang.common.app_version = "2.1.1";
+		Lang.common.app_version_date = "Lairë 70, XIV 140";
 		Lang.common.current_date_label = "Current date";
 		Lang.common.location_label = "Loc.";
 		Lang.common.timezone_label = "TZ";
@@ -86,7 +88,15 @@ public class LangEnglish extends Lang {
 		Lang.about_tab.tooltip = "About the application and author.";
 		Lang.about_tab.app_name = "Notië Imberissëo";
 		Lang.about_tab.tengwar_name = "5^1T`V `Bw$7T,R`H";
-		Lang.about_tab.info = "<font size=\"3\">By <b>Erutulco Eruntano</b><br />\nContact: <a href=\"http://twitter.com/joaquingatica\">@joaquingatica</a> or <a href=\"mailto:erutulco@quenya101.com\">erutulco@quenya101.com</a><br />\n&copy; Tuilë, XIV 140<br /></font>\n<br />\n<font size=\"2\">Open Source Software hosted at: <a href=\"http://github.com/joaquingatica/Notie-Imberisseo\">github.com/joaquingatica/Notie-Imberisseo</a><br />\nFor reference about the <b>calendar</b>, visit Quenya101 Language Institute:<br />\n<a href=\"http://www.quenya101.com\">www.quenya101.com</a><br />\n<br />\nSpecial thanks to <b>Erunno Alcarinollo</b>.</font>";
+		Lang.about_tab.info = "<font size=\"3\">By <b>Erutulco Eruntano</b><br />" +
+							  "Contact: <a href=\"http://twitter.com/joaquingatica\">@joaquingatica</a> or <a href=\"mailto:erutulco@quenya101.com\">erutulco@quenya101.com</a><br />" +
+							  "&copy; "+Lang.common.app_version_date+"<br />" +
+					  		  "</font><br />" +
+						  	  "<font size=\"2\">Open Source Software hosted at: <a href=\"http://github.com/joaquingatica/Notie-Imberisseo\">github.com/joaquingatica/Notie-Imberisseo</a><br />" +
+						  	  "For reference about the <b>calendar</b>, visit Quenya101 Language Institute:<br />" +
+						  	  "<a href=\"http://www.quenya101.com\">www.quenya101.com</a><br />" +
+						  	  "<br />" +
+						  	  "Special thanks to <b>Erunno Alcarinollo</b>.</font>";
 	}
 	
 }

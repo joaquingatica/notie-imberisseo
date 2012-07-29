@@ -22,6 +22,8 @@ public abstract class Lang {
 	}
 	public static class common {
 		public static String app_title;
+		public static String app_version;
+		public static String app_version_date;
 		public static String current_date_label;
 		public static String location_label;
 		public static String timezone_label;
