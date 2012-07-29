@@ -44,6 +44,9 @@ import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+import lang.Lang;
+import lang.LangManager;
+
 import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.luckycatlabs.sunrisesunset.dto.Location;
 
@@ -59,13 +62,16 @@ public class UIController {
 
 	private static final String FIELD_CITY = "city";
 	private static final String FIELD_COUNTRY = "country";
+	private static final String FIELD_LANG = "language";
 	private static final String FIELD_TIMEZONE = "timezone";
 	private static final String DEF_CITY = "Montevideo";
 	private static final String DEF_COUNTRY = "Uruguay";
+	private static final String DEF_LANG = "eng";
 	private static final String DEF_TIMEZONE = TimeZone.getDefault().getID();
 	
 	private UI ui;
 	private Preferences preferences = null;
+	private LangManager langManager;
 	public void setUi(UI ui) {
 		this.ui = ui;
 	}
@@ -78,6 +84,12 @@ public class UIController {
 	public Preferences getPreferences() {
 		return preferences;
 	}
+	public void setLangManager(LangManager langManager) {
+		this.langManager = langManager;
+	}
+	public LangManager getLangManager() {
+		return langManager;
+	}
 	
 	private static UIController instance = null;
 	public static UIController getInstance() {
@@ -87,12 +99,29 @@ public class UIController {
 		return instance;
 	}
 	private UIController() {
+		LangManager langManager = LangManager.getInstance();
+		Preferences data = this.getCurrentPreferences();
+		String shortName = data.get(FIELD_LANG, DEF_LANG);
+		if(!langManager.defineLang(shortName)) {
+			langManager.defineLang(DEF_LANG);
+		}
+		this.setLangManager(langManager);
 	}
 	
 	public void initializeWindow() {
 		this.createWindow();
 		this.fillData();
 	}
+	public void disposeWindow() {
+		UI ui = UI.getInstance();
+		ui.getFrame().dispose();
+		UI.disposeInstance();
+	}
+	public void reloadWindow() {
+		this.disposeWindow();
+		this.initializeWindow();
+	}
+	
 	private void createWindow() {
 		UI ui = UI.getInstance();
 		ui.getFrame().setVisible(true);
@@ -421,6 +450,11 @@ public class UIController {
 		String country = data.get(FIELD_COUNTRY, DEF_COUNTRY);
 		ui.getCity().setText(city);
 		ui.getCountry().setText(country);
+		/* Lang */
+		LangManager langManager = LangManager.getInstance();
+		String lang = langManager.getDefinedLang().getShortName();
+		JComboBox langsCombo = ui.getLangCombo();
+		langsCombo.setSelectedIndex(Arrays.asList(LangManager.getLanguagesShort()).indexOf(lang));
 		/* Time Zone */
 		String[] tzs = TimeZone.getAvailableIDs();
 		Arrays.sort(tzs);
@@ -432,9 +466,20 @@ public class UIController {
 	public void saveSettings() {
 		UI ui = this.getUi();
 		Preferences data = this.getCurrentPreferences();
+		/* City, country, tz */
 		data.put(FIELD_CITY, ui.getCity().getText());
 		data.put(FIELD_COUNTRY, ui.getCountry().getText());
 		data.put(FIELD_TIMEZONE, (String)ui.getTimeZone().getSelectedValue());
+		/* Lang */
+		LangManager langManager = LangManager.getInstance();
+		String shortLang = LangManager.getLanguagesShort()[Arrays.asList(LangManager.getLanguagesPrintable()).indexOf((String)ui.getLangCombo().getSelectedItem())];
+		Lang actual = langManager.getDefinedLang();
+		if(!actual.getShortName().equals(shortLang)) {
+			langManager.defineLang(shortLang);
+			data.put(FIELD_LANG, shortLang);
+			this.reloadWindow();
+		}
+		/* Update today's date */
 		this.showDateOfToday();
 	}
 	

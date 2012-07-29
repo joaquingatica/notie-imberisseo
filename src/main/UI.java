@@ -34,6 +34,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
+
 import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
@@ -41,6 +42,8 @@ import javax.swing.JButton;
 
 import data.GregorianInfo;
 import data.ImladrisInfo;
+import fonts.FontManager;
+
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ActionListener;
@@ -65,6 +68,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+
+import lang.Lang;
+import lang.LangManager;
 
 public class UI implements HyperlinkListener {
 	
@@ -91,6 +97,7 @@ public class UI implements HyperlinkListener {
 	/* SETTINGS */
 	private JTextField city;
 	private JTextField country;
+	private JComboBox langCombo;
 	private JList timeZone;
 	private JLabel saveResult;
 	
@@ -205,6 +212,12 @@ public class UI implements HyperlinkListener {
 	public void setCountry(JTextField country) {
 		this.country = country;
 	}
+	public JComboBox getLangCombo() {
+		return langCombo;
+	}
+	public void setLangCombo(JComboBox langCombo) {
+		this.langCombo = langCombo;
+	}
 	public JList getTimeZone() {
 		return timeZone;
 	}
@@ -248,6 +261,9 @@ public class UI implements HyperlinkListener {
 		}
 		return instance;
 	}
+	public static void disposeInstance() {
+		instance = null;
+	}
 	private UI() {
 		initialize();
 	}
@@ -258,7 +274,7 @@ public class UI implements HyperlinkListener {
 	private void initialize() {
 		
 		frmNotiImberisso = new JFrame();
-		frmNotiImberisso.setTitle("Notië Imberissëo");
+		frmNotiImberisso.setTitle(Lang.common.app_title);
 		frmNotiImberisso.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmNotiImberisso.setSize(600, 380);
 		frmNotiImberisso.setLocation(300,200);
@@ -278,7 +294,7 @@ public class UI implements HyperlinkListener {
 		frmNotiImberisso.getContentPane().add(tabbedPane, gbc_tabbedPane);
 		
 		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("To Imladris Reckoning", null, panel_1, "Convert from Gregorian to Imladris Reckoning");
+		tabbedPane.addTab(Lang.to_imladris_tab.title, null, panel_1, Lang.to_imladris_tab.tooltip);
 		panel_1.setBorder(null);
 		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(2dlu;default)"),
@@ -314,23 +330,23 @@ public class UI implements HyperlinkListener {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblYear = new JLabel("Year");
+		JLabel lblYear = new JLabel(Lang.to_imladris_tab.year_label);
 		lblYear.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel_1.add(lblYear, "5, 2, 3, 1, center, default");
 		
-		JLabel lblMonth = new JLabel("Month");
+		JLabel lblMonth = new JLabel(Lang.to_imladris_tab.month_label);
 		lblMonth.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel_1.add(lblMonth, "9, 2, 5, 1, center, default");
 		
-		JLabel lblDay = new JLabel("Day");
+		JLabel lblDay = new JLabel(Lang.to_imladris_tab.day_label);
 		lblDay.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel_1.add(lblDay, "15, 2, 3, 1, center, default");
 		
-		JLabel lblChooseGregorianDate = new JLabel("Choose Gregorian date:");
+		JLabel lblChooseGregorianDate = new JLabel(Lang.to_imladris_tab.choose_label);
 		panel_1.add(lblChooseGregorianDate, "2, 4, 2, 1, fill, fill");
 		
 		year = new JTextField();
-		year.setToolTipText("Valid years: 1 - 2299");
+		year.setToolTipText(Lang.to_imladris_tab.year_tooltip);
 		year.addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e) {
 				UIController.getInstance().updateDayComboGregorian();
@@ -358,25 +374,25 @@ public class UI implements HyperlinkListener {
 			}
 		});
 		
-		afterSunset = new JCheckBox("After sunset");
+		afterSunset = new JCheckBox(Lang.to_imladris_tab.after_sunset_label);
 		afterSunset.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel_1.add(afterSunset, "5, 6, 5, 1");
 		toImladris.setEnabled(false);
 		panel_1.add(toImladris, "11, 6, 7, 1, fill, fill");
 		
-		JLabel lblResultingImladrisDate = new JLabel("Resulting Imladris date:");
+		JLabel lblResultingImladrisDate = new JLabel(Lang.to_imladris_tab.resulting_label);
 		panel_1.add(lblResultingImladrisDate, "2, 10, 2, 1, fill, fill");
 		
 		resImladris = new JTextPane();
 		resImladris.setEditable(false);
 		panel_1.add(resImladris, "5, 10, 13, 1, fill, fill");
 		
-		JLabel lblFormat = new JLabel("(Format: Weekday, Period [Day#], Yén Loa)");
+		JLabel lblFormat = new JLabel(Lang.punctuation.parenthesis_open+Lang.to_imladris_tab.resulting_format+Lang.punctuation.parenthesis_close);
 		lblFormat.setFont(new Font("Dialog", Font.PLAIN, 10));
 		panel_1.add(lblFormat, "5, 12, 13, 1, fill, fill");
 		
 		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("From Imladris Reckoning", null, panel_2, "Convert from Imladris to Gregorian Reckoning");
+		tabbedPane.addTab(Lang.from_imladris_tab.title, null, panel_2, Lang.from_imladris_tab.tooltip);
 		panel_2.setBorder(null);
 		panel_2.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -417,23 +433,23 @@ public class UI implements HyperlinkListener {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblYn = new JLabel("Yén");
+		JLabel lblYn = new JLabel(Lang.from_imladris_tab.yen_label);
 		lblYn.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel_2.add(lblYn, "6, 2, 3, 1, center, default");
 		
-		JLabel lblLoa = new JLabel("Loa");
+		JLabel lblLoa = new JLabel(Lang.from_imladris_tab.loa_label);
 		lblLoa.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel_2.add(lblLoa, "10, 2, 3, 1, center, default");
 		
-		JLabel lblPeriod = new JLabel("Period");
+		JLabel lblPeriod = new JLabel(Lang.from_imladris_tab.period_label);
 		lblPeriod.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel_2.add(lblPeriod, "14, 2, 5, 1, center, default");
 		
-		JLabel lblNewLabel = new JLabel("Day");
+		JLabel lblNewLabel = new JLabel(Lang.from_imladris_tab.day_label);
 		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel_2.add(lblNewLabel, "20, 2, 3, 1, center, default");
 		
-		JLabel lblS = new JLabel("Choose Imladris date:");
+		JLabel lblS = new JLabel(Lang.from_imladris_tab.choose_label);
 		panel_2.add(lblS, "2, 4, 3, 1, fill, fill");
 		
 		yen = new JComboBox();
@@ -452,7 +468,7 @@ public class UI implements HyperlinkListener {
 				UIController.getInstance().updateDayComboImladris();
 			}
 		});
-		loa.setToolTipText("Valid loar: 1 - 144");
+		loa.setToolTipText(Lang.from_imladris_tab.loa_tooltip);
 		panel_2.add(loa, "10, 4, 3, 1, fill, fill");
 		loa.setColumns(10);
 		
@@ -476,36 +492,38 @@ public class UI implements HyperlinkListener {
 			}
 		});
 		
-		beforeMidnight = new JCheckBox("Before midnight");
+		beforeMidnight = new JCheckBox(Lang.from_imladris_tab.before_midnight_label);
 		beforeMidnight.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel_2.add(beforeMidnight, "6, 6, 9, 1, fill, fill");
 		toGregorian.setEnabled(false);
 		panel_2.add(toGregorian, "16, 6, 7, 1, fill, fill");
 		
-		JLabel lblNewLabel_1 = new JLabel("Resulting Gregorian date:");
+		JLabel lblNewLabel_1 = new JLabel(Lang.from_imladris_tab.resulting_label);
 		panel_2.add(lblNewLabel_1, "2, 10, 3, 1, fill, fill");
 		
 		resGregorian = new JTextPane();
 		resGregorian.setEditable(false);
 		panel_2.add(resGregorian, "6, 10, 17, 1, fill, fill");
 		
-		JLabel lblNewLabel_2 = new JLabel("(Format: Weekday, Month Day, Year)");
+		JLabel lblNewLabel_2 = new JLabel(Lang.punctuation.parenthesis_open+Lang.from_imladris_tab.resulting_format+Lang.punctuation.parenthesis_close);
 		lblNewLabel_2.setFont(new Font("Dialog", Font.PLAIN, 10));
 		panel_2.add(lblNewLabel_2, "6, 12, 17, 1");
 		
 		JPanel panel = new JPanel();
 		panel.setToolTipText("");
-		tabbedPane.addTab("Settings", null, panel, "Set configuration");
+		tabbedPane.addTab(Lang.settings_tab.title, null, panel, Lang.settings_tab.tooltip);
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(61dlu;default)"),
+				ColumnSpec.decode("max(61dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(112dlu;default)"),},
 			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -521,13 +539,13 @@ public class UI implements HyperlinkListener {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblLocation = new JLabel("Location");
+		JLabel lblLocation = new JLabel(Lang.settings_tab.location);
 		panel.add(lblLocation, "4, 2, center, center");
 		
-		JLabel lblTimezone = new JLabel("Time Zone");
+		JLabel lblTimezone = new JLabel(Lang.settings_tab.timezone);
 		panel.add(lblTimezone, "8, 2, center, center");
 		
-		JLabel lblCity = new JLabel("City:");
+		JLabel lblCity = new JLabel(Lang.settings_tab.city_label+Lang.punctuation.double_dot);
 		panel.add(lblCity, "2, 4, right, fill");
 		
 		city = new JTextField();
@@ -535,23 +553,30 @@ public class UI implements HyperlinkListener {
 		city.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		panel.add(scrollPane, "8, 4, 1, 9, fill, fill");
+		panel.add(scrollPane, "8, 4, 1, 11, fill, fill");
 		
 		timeZone = new JList();
 		scrollPane.setViewportView(timeZone);
 		timeZone.setBorder(null);
 		timeZone.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		JLabel lblCountry = new JLabel("Country:");
+		JLabel lblCountry = new JLabel(Lang.settings_tab.country_label+Lang.punctuation.double_dot);
 		panel.add(lblCountry, "2, 6, right, fill");
 		
 		country = new JTextField();
 		panel.add(country, "4, 6, fill, fill");
 		country.setColumns(10);
 		
+		JLabel lblLanguage = new JLabel(Lang.settings_tab.language_label+Lang.punctuation.double_dot);
+		panel.add(lblLanguage, "2, 10, right, default");
+		
+		langCombo = new JComboBox();
+		langCombo.setModel(new DefaultComboBoxModel(LangManager.getLanguagesPrintable()));
+		panel.add(langCombo, "4, 10, fill, default");
+		
 		saveResult = new JLabel("");
 		saveResult.setForeground(Color.GREEN);
-		panel.add(saveResult, "2, 10, 3, 1, right, fill");
+		panel.add(saveResult, "2, 12, 3, 1, right, fill");
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
@@ -559,10 +584,10 @@ public class UI implements HyperlinkListener {
 				UIController.getInstance().saveSettings();
 			}
 		});
-		panel.add(btnSave, "4, 12, right, fill");
+		panel.add(btnSave, "4, 14, right, fill");
 		
 		JPanel panel_4 = new JPanel();
-		tabbedPane.addTab("About", null, panel_4, null);
+		tabbedPane.addTab(Lang.about_tab.title, null, panel_4, null);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_4.rowHeights = new int[]{23, 0, 0, 0};
@@ -570,7 +595,7 @@ public class UI implements HyperlinkListener {
 		gbl_panel_4.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel_4.setLayout(gbl_panel_4);
 		
-		JLabel lblNotiImberisso = new JLabel("Notië Imberissëo");
+		JLabel lblNotiImberisso = new JLabel(Lang.about_tab.app_name);
 		lblNotiImberisso.setFont(new Font("Dialog", Font.BOLD, 12));
 		GridBagConstraints gbc_lblNotiImberisso = new GridBagConstraints();
 		gbc_lblNotiImberisso.anchor = GridBagConstraints.SOUTH;
@@ -580,8 +605,16 @@ public class UI implements HyperlinkListener {
 		gbc_lblNotiImberisso.gridy = 0;
 		panel_4.add(lblNotiImberisso, gbc_lblNotiImberisso);
 		
-		JLabel lbltvbwtrn = new JLabel("5^1T`V `Bw$7T,R`H");
-		lbltvbwtrn.setFont(new Font("Tengwar Annatar", Font.BOLD, 14));
+		JLabel lbltvbwtrn = new JLabel(Lang.about_tab.tengwar_name);
+		Font tengwarFont = null;
+		try {
+			tengwarFont = FontManager.getTrueTypeFont("tngan.ttf");
+		} catch (Exception e) {
+			tengwarFont = new Font("Tengwar Annatar", Font.BOLD, 14);
+		}
+		tengwarFont = tengwarFont.deriveFont((float)14);
+		tengwarFont = tengwarFont.deriveFont(Font.BOLD);
+		lbltvbwtrn.setFont(tengwarFont);
 		GridBagConstraints gbc_lbltvbwtrn = new GridBagConstraints();
 		gbc_lbltvbwtrn.gridwidth = 19;
 		gbc_lbltvbwtrn.insets = new Insets(0, 0, 5, 0);
@@ -592,7 +625,7 @@ public class UI implements HyperlinkListener {
 		aboutEditor = new JEditorPane();
 		aboutEditor.setContentType("text/html");
 		aboutEditor.setEditable(false);
-		aboutEditor.setText("<font size=\"3\">By <b>Erutulco Eruntano</b><br />\nContact: <a href=\"http://twitter.com/joaquingatica\">@joaquingatica</a> or <a href=\"mailto:erutulco@quenya101.com\">erutulco@quenya101.com</a><br />\n&copy; Tuilë, XIV 140<br /></font>\n<br />\n<font size=\"2\">Open Source Software hosted at: <a href=\"http://github.com/joaquingatica/Notie-Imberisseo\">github.com/joaquingatica/Notie-Imberisseo</a><br />\nFor reference about the <b>calendar</b>, visit Quenya101 Language Institute:<br />\n<a href=\"http://www.quenya101.com\">www.quenya101.com</a><br />\n<br />\nSpecial thanks to <b>Erunno Alcarinollo</b>.</font>");
+		aboutEditor.setText(Lang.about_tab.info);
 		aboutEditor.addHyperlinkListener(this);
 		GridBagConstraints gbc_dtrpnF = new GridBagConstraints();
 		gbc_dtrpnF.gridwidth = 19;
@@ -615,7 +648,7 @@ public class UI implements HyperlinkListener {
 		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		
-		JLabel lblTodaysDate = new JLabel("Current date:");
+		JLabel lblTodaysDate = new JLabel(Lang.common.current_date_label);
 		GridBagConstraints gbc_lblTodaysDate = new GridBagConstraints();
 		gbc_lblTodaysDate.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTodaysDate.gridx = 0;
@@ -631,7 +664,7 @@ public class UI implements HyperlinkListener {
 		gbc_locationInfo.gridy = 0;
 		panel_3.add(locationInfo, gbc_locationInfo);
 		
-		JLabel lblGregorian = new JLabel("Gregorian:");
+		JLabel lblGregorian = new JLabel(Lang.common.gregorian_label);
 		lblGregorian.setFont(new Font("Dialog", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblGregorian = new GridBagConstraints();
 		gbc_lblGregorian.anchor = GridBagConstraints.EAST;
@@ -650,7 +683,7 @@ public class UI implements HyperlinkListener {
 		gbc_todayGregorian.gridy = 1;
 		panel_3.add(todayGregorian, gbc_todayGregorian);
 		
-		JLabel lblImladris = new JLabel("Imladris:");
+		JLabel lblImladris = new JLabel(Lang.common.imladris_label);
 		lblImladris.setFont(new Font("Dialog", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblImladris = new GridBagConstraints();
 		gbc_lblImladris.anchor = GridBagConstraints.EAST;
