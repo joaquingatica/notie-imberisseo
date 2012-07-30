@@ -217,7 +217,18 @@ public class UIController {
 		}
 		else {
 			cal = new ImladrisCalendar(time, gcal);
-			sunsetStr = " "+Lang.punctuation.parenthesis_open+"Sunset at: "+time.toString()+Lang.punctuation.parenthesis_close;
+			/*check if before sunset*/
+			String gtimeStr = gcal.get(GregorianCalendar.HOUR_OF_DAY)+":"+gcal.get(GregorianCalendar.MINUTE)+":"+gcal.get(GregorianCalendar.SECOND);
+			Time gtime = Time.valueOf(gtimeStr);
+			if(gtime.before(time)) { // before sunset
+				sunsetStr = " - before sunset";
+			}
+			else { // after/during sunset
+				sunsetStr = " - after sunset";
+			}
+			String sunsetTimeStr = time.toString();
+			sunsetTimeStr = sunsetTimeStr.substring(0, sunsetTimeStr.length()-3);
+			sunsetStr += " "+Lang.punctuation.parenthesis_open+"occurring at "+sunsetTimeStr+Lang.punctuation.parenthesis_close;
 			locationInfo = this.makeLocationString(city, country);
 			if(locationInfo.length() > 0) {
 				locationInfo = Lang.punctuation.parenthesis_open+Lang.common.location_label+Lang.punctuation.double_dot+" "+locationInfo+" "+Lang.punctuation.pipe+" "+Lang.common.timezone_label+Lang.punctuation.double_dot+" "+data.get(FIELD_TIMEZONE, DEF_TIMEZONE)+Lang.punctuation.parenthesis_close;

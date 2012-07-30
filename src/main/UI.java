@@ -54,6 +54,7 @@ import java.awt.Font;
 import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
 
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -374,18 +375,21 @@ public class UI implements HyperlinkListener {
 				UIController.getInstance().convertToImladris();
 			}
 		});
+		toImladris.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		toImladris.setEnabled(false);
+		panel_1.add(toImladris, "11, 6, 7, 1, fill, fill");
 		
 		afterSunset = new JCheckBox(Lang.to_imladris_tab.after_sunset_label);
 		afterSunset.setFont(new Font("Dialog", Font.PLAIN, 12));
+		afterSunset.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_1.add(afterSunset, "5, 6, 5, 1");
-		toImladris.setEnabled(false);
-		panel_1.add(toImladris, "11, 6, 7, 1, fill, fill");
 		
 		JLabel lblResultingImladrisDate = new JLabel(Lang.to_imladris_tab.resulting_label);
 		panel_1.add(lblResultingImladrisDate, "2, 10, 2, 1, fill, fill");
 		
 		resImladris = new JTextPane();
 		resImladris.setEditable(false);
+		resImladris.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		panel_1.add(resImladris, "5, 10, 13, 1, fill, fill");
 		
 		JLabel lblFormat = new JLabel(Lang.punctuation.parenthesis_open+Lang.to_imladris_tab.resulting_format+Lang.punctuation.parenthesis_close);
@@ -492,18 +496,21 @@ public class UI implements HyperlinkListener {
 				UIController.getInstance().convertToGregorian();
 			}
 		});
+		toGregorian.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		toGregorian.setEnabled(false);
+		panel_2.add(toGregorian, "16, 6, 7, 1, fill, fill");
 		
 		beforeMidnight = new JCheckBox(Lang.from_imladris_tab.before_midnight_label);
 		beforeMidnight.setFont(new Font("Dialog", Font.PLAIN, 12));
+		beforeMidnight.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_2.add(beforeMidnight, "6, 6, 9, 1, fill, fill");
-		toGregorian.setEnabled(false);
-		panel_2.add(toGregorian, "16, 6, 7, 1, fill, fill");
 		
 		JLabel lblNewLabel_1 = new JLabel(Lang.from_imladris_tab.resulting_label);
 		panel_2.add(lblNewLabel_1, "2, 10, 3, 1, fill, fill");
 		
 		resGregorian = new JTextPane();
 		resGregorian.setEditable(false);
+		resGregorian.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		panel_2.add(resGregorian, "6, 10, 17, 1, fill, fill");
 		
 		JLabel lblNewLabel_2 = new JLabel(Lang.punctuation.parenthesis_open+Lang.from_imladris_tab.resulting_format+Lang.punctuation.parenthesis_close);
@@ -585,6 +592,7 @@ public class UI implements HyperlinkListener {
 				UIController.getInstance().saveSettings();
 			}
 		});
+		btnSave.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel.add(btnSave, "4, 14, right, fill");
 		
 		JPanel panel_4 = new JPanel();
@@ -636,7 +644,7 @@ public class UI implements HyperlinkListener {
 		gbc_panel_3.gridy = 1;
 		frmNotiImberisso.getContentPane().add(panel_3, gbc_panel_3);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[]{0, 401, 0};
+		gbl_panel_3.columnWidths = new int[]{0, 460, 0};
 		gbl_panel_3.rowHeights = new int[]{0, 24, 0, 0};
 		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -670,6 +678,7 @@ public class UI implements HyperlinkListener {
 		todayGregorian = new JTextPane();
 		todayGregorian.setEditable(false);
 		todayGregorian.setFont(new Font("Dialog", Font.BOLD, 12));
+		todayGregorian.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		GridBagConstraints gbc_todayGregorian = new GridBagConstraints();
 		gbc_todayGregorian.insets = new Insets(0, 0, 5, 0);
 		gbc_todayGregorian.fill = GridBagConstraints.BOTH;
@@ -689,6 +698,7 @@ public class UI implements HyperlinkListener {
 		todayImladris = new JTextPane();
 		todayImladris.setEditable(false);
 		todayImladris.setFont(new Font("Dialog", Font.BOLD, 12));
+		todayImladris.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		GridBagConstraints gbc_todayImladris = new GridBagConstraints();
 		gbc_todayImladris.fill = GridBagConstraints.BOTH;
 		gbc_todayImladris.gridx = 1;

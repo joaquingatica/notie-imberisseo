@@ -46,57 +46,56 @@ public class LangQuenya extends Lang {
 		Lang.common.app_title = "Notië Imberissëo";
 		Lang.common.app_version = "2.1.1";
 		Lang.common.app_version_date = "Lairë 70, XIV 140";
-		Lang.common.current_date_label = "Current date";
-		Lang.common.location_label = "Loc.";
-		Lang.common.timezone_label = "TZ";
-		Lang.common.gregorian_label = "Gregorian";
-		Lang.common.imladris_label = "Imladris";
+		Lang.common.current_date_label = "Ré ar lúme sírava"; // day and hour of today
+		Lang.common.location_label = "Nómë"; // place
+		Lang.common.timezone_label = "Lúme arda"; // time realm/region
+		Lang.common.gregorian_label = "Tirinquova"; // Gregorian
+		Lang.common.imladris_label = "Imberissëo"; // of Imladris
 		/* To Imladris tab */
-		Lang.to_imladris_tab.title = "To Imladris Reckoning";
-		Lang.to_imladris_tab.tooltip = "Convert from Gregorian to Imladris calendar";
-		Lang.to_imladris_tab.choose_label = "Choose Gregorian date";
-		Lang.to_imladris_tab.resulting_label = "Resulting Imladris date";
-		Lang.to_imladris_tab.year_label = "Year";
-		Lang.to_imladris_tab.year_tooltip = "Valid years: 1 - 2299";
-		Lang.to_imladris_tab.month_label = "Month";
-		Lang.to_imladris_tab.day_label = "Day";
-		Lang.to_imladris_tab.after_sunset_label = "After sunset";
-		Lang.to_imladris_tab.resulting_format = "Format: Weekday, Period [Day#], Yén Loa";
+		Lang.to_imladris_tab.title = "Notienna Imberissëo"; // To Imladris Reckoning
+		Lang.to_imladris_tab.tooltip = "Querien lúmi Notiello Tirinquova Notienna Imberissëo"; // to turn times from Reckoning of Gregory to Reckoning of Imladris
+		Lang.to_imladris_tab.choose_label = "Á mitta lúmë Tirinquova"; // insert Gregorian time
+		Lang.to_imladris_tab.resulting_label = "Imberissëo lúmë"; // time of Imladris
+		Lang.to_imladris_tab.year_label = "Loa"; // year
+		Lang.to_imladris_tab.year_tooltip = "Tyastainar loar: 1 - 13B7 (Manquanotiessë: 2299)"; // Tested years: 1 - 13B7 (In decimal system: 2299)
+		Lang.to_imladris_tab.month_label = "Asta"; // month/part
+		Lang.to_imladris_tab.day_label = "Ré"; // day
+		Lang.to_imladris_tab.after_sunset_label = "Apa i andúnë"; // after sunset
+		Lang.to_imladris_tab.resulting_format = "Venwë: Ré equiéva, Asta [Ré nóte], Yén Loa"; // Shape: Day of week, period [day number], yen loa
 		/* From Imladris tab */
-		Lang.from_imladris_tab.title = "Form Imladris Reckoning";
-		Lang.from_imladris_tab.tooltip = "Convert from Imladris to Gregorian calendar";
-		Lang.from_imladris_tab.choose_label = "Choose Imladris date";
-		Lang.from_imladris_tab.resulting_label = "Resulting Gregorian date";
-		Lang.from_imladris_tab.yen_label = "Yén";
-		Lang.from_imladris_tab.loa_label = "Loa";
-		Lang.from_imladris_tab.loa_tooltip = "Valid loar: 1 - 144";
-		Lang.from_imladris_tab.period_label = "Period";
-		Lang.from_imladris_tab.day_label = "Day";
-		Lang.from_imladris_tab.before_midnight_label = "Before midnight";
-		Lang.from_imladris_tab.resulting_format = "Format: Weekday, Month Day, Year";
+		Lang.from_imladris_tab.title = "Notiello Imberissëo"; // From Imladris Reckoning
+		Lang.from_imladris_tab.tooltip = "Querien lúmi Notiello Imberissëo Notienna Tirinquova ";// to turn times from Reckoning of Imladris to Reckoning of Gregory";
+		Lang.from_imladris_tab.choose_label = "Á mitta Imberissëo lúmë"; // insert time of Imladris
+		Lang.from_imladris_tab.resulting_label = "Lúmë Tirinquova"; // Gregorian time
+		Lang.from_imladris_tab.yen_label = "Yén"; // yén
+		Lang.from_imladris_tab.loa_label = "Loa"; // loa
+		Lang.from_imladris_tab.loa_tooltip = "Tyastainar loar: 1 - 100 (Manquanotiessë: 144)"; // Tested loar: 1 - 100 (In decimal system: 144)
+		Lang.from_imladris_tab.period_label = "Asta"; // period
+		Lang.from_imladris_tab.day_label = "Ré"; // day
+		Lang.from_imladris_tab.before_midnight_label = "Nó i endë i lómiva"; // before middle of night
+		Lang.from_imladris_tab.resulting_format = "Venwë: Ré equiéva, Asta Ré, Loa"; // Shape: Day of week, period day, year
 		/* Settings tab */
-		Lang.settings_tab.title = "Settings";
-		Lang.settings_tab.tooltip = "Edit configurations";
-		Lang.settings_tab.location = "Location";
-		Lang.settings_tab.city_label = "City";
-		Lang.settings_tab.country_label = "Country";
-		Lang.settings_tab.language_label = "Language";
-		Lang.settings_tab.timezone = "Timezone";
-		Lang.settings_tab.save = "Save";
+		Lang.settings_tab.title = "Panier"; // (gerund) settings
+		Lang.settings_tab.tooltip = "Tulcien panier"; // to establish/set settings
+		Lang.settings_tab.location = "Nómë"; // place
+		Lang.settings_tab.city_label = "Osto"; // city
+		Lang.settings_tab.country_label = "Nórë"; // country/land
+		Lang.settings_tab.language_label = "Lambë"; // tongue/language
+		Lang.settings_tab.timezone = "Lúme arda"; // time realm/region
+		Lang.settings_tab.save = "Á carë rehtië"; // do saving
 		/* About tab */
-		Lang.about_tab.title = "About";
-		Lang.about_tab.tooltip = "About the application and author.";
+		Lang.about_tab.title = "Sino"; // about this
+		Lang.about_tab.tooltip = "Sino ar nio."; // about this and about me 
 		Lang.about_tab.app_name = "Notië Imberissëo";
 		Lang.about_tab.tengwar_name = "5^1T`V `Bw$7T,R`H";
-		Lang.about_tab.info = "<font size=\"3\">By <b>Erutulco Eruntano</b><br />" +
-				  "Contact: <a href=\"http://twitter.com/joaquingatica\">@joaquingatica</a> or <a href=\"mailto:erutulco@quenya101.com\">erutulco@quenya101.com</a><br />" +
+		Lang.about_tab.info = "<font size=\"3\">Ló <b>Erutulco Eruntano</b><br />" + // By Joaquín son of John
+				  "Manen hiritan: <a href=\"http://twitter.com/joaquingatica\">@joaquingatica</a> hya <a href=\"mailto:erutulco@quenya101.com\">erutulco@quenya101.com</a><br />" + // how to find me: ... or ...
 				  "&copy; "+Lang.common.app_version_date+"<br />" +
 		  		  "</font><br />" +
-			  	  "<font size=\"2\">Open Source Software hosted at: <a href=\"http://github.com/joaquingatica/Notie-Imberisseo\">github.com/joaquingatica/Notie-Imberisseo</a><br />" +
-			  	  "For reference about the <b>calendar</b>, visit Quenya101 Language Institute:<br />" +
-			  	  "<a href=\"http://www.quenya101.com\">www.quenya101.com</a><br />" +
+			  	  "<font size=\"2\"><a href=\"http://github.com/joaquingatica/Notie-Imberisseo\">github.com/joaquingatica/Notie-Imberisseo</a><br />" +
+			  	  "Amban i <b>notiéo</b>, á lelya ana <a href=\"http://www.quenya101.com\">www.quenya101.com</a><br />" + // for more about the reckoning, go to
 			  	  "<br />" +
-			  	  "Special thanks to <b>Erunno Alcarinollo</b>.</font>";
+			  	  "Hantanyë <b>Erunno Alcarinollo</b>.</font>"; // I thank Erunno Alcarinollo
 }
 	
 }
