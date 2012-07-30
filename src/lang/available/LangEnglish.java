@@ -44,7 +44,7 @@ public class LangEnglish extends Lang {
 		Lang.punctuation.pipe = "|";
 		/* Common */
 		Lang.common.app_title = "Notië Imberissëo";
-		Lang.common.app_version = "2.1.1";
+		Lang.common.app_version = "2.4";
 		Lang.common.app_version_date = "Lairë 70, XIV 140";
 		Lang.common.current_date_label = "Current date";
 		Lang.common.location_label = "Loc.";
