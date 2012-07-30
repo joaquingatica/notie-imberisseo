@@ -39,6 +39,8 @@ import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import data.GregorianInfo;
 import data.ImladrisInfo;
@@ -273,6 +275,19 @@ public class UI implements HyperlinkListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+        // Set System L&F
+		try {
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } 
+	    catch (UnsupportedLookAndFeelException e) {
+	    }
+	    catch (ClassNotFoundException e) {
+	    }
+	    catch (InstantiationException e) {
+	    }
+	    catch (IllegalAccessException e) {
+	    }
+		
 		FontManager.registerAvailableFonts();
 		
 		frmNotiImberisso = new JFrame();
