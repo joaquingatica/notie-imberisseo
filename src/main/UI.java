@@ -60,8 +60,10 @@ import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -275,7 +277,7 @@ public class UI implements HyperlinkListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-        // Set System L&F
+        /* Set system Look & Feel */
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	    } 
@@ -288,13 +290,18 @@ public class UI implements HyperlinkListener {
 	    catch (IllegalAccessException e) {
 	    }
 		
+		/* Register fonts */
 		FontManager.registerAvailableFonts();
+		
+		/* Get app icon */
+		Image icon = Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("res/images/icon.png"));
 		
 		frmNotiImberisso = new JFrame();
 		frmNotiImberisso.setTitle(Lang.common.app_title);
 		frmNotiImberisso.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmNotiImberisso.setSize(600, 380);
 		frmNotiImberisso.setLocation(300,200);
+		frmNotiImberisso.setIconImage(icon);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{520, 0};
 		gridBagLayout.rowHeights = new int[]{227, 0, 0};
