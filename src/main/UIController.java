@@ -41,6 +41,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
@@ -116,6 +117,13 @@ public class UIController {
 		this.createWindow();
 		this.fillData(useCacheSunset);
 	}
+	public void initializeWindow(boolean useCacheSunset, int selectedTab) {
+		this.initializeWindow(useCacheSunset);
+		JTabbedPane tabbedPane = UI.getInstance().getTabbedPane();
+		if(selectedTab >= 0 && selectedTab < tabbedPane.getTabCount()) {
+			tabbedPane.setSelectedIndex(selectedTab);
+		}
+	}
 	public void disposeWindow() {
 		UI ui = UI.getInstance();
 		ui.getFrame().dispose();
@@ -124,6 +132,15 @@ public class UIController {
 	public void reloadWindow() {
 		this.disposeWindow();
 		this.initializeWindow(true);
+	}
+	public void reloadWindow(int selectedTab) {
+		this.disposeWindow();
+		this.initializeWindow(true, selectedTab);
+	}
+	public void reloadWindowInActualTab() {
+		int index = UI.getInstance().getTabbedPane().getSelectedIndex();
+		this.disposeWindow();
+		this.initializeWindow(true, index);
 	}
 	
 	private void createWindow() {
@@ -517,7 +534,7 @@ public class UIController {
 		if(!actual.getShortName().equals(shortLang)) {
 			langManager.defineLang(shortLang);
 			data.put(FIELD_LANG, shortLang);
-			this.reloadWindow();
+			this.reloadWindowInActualTab();
 			updateDate = false;
 		}
 		/* Update today's date */

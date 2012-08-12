@@ -81,6 +81,7 @@ public class UI implements HyperlinkListener {
 	
 	/* FRAME */
 	private JFrame frmNotiImberisso;
+	private JTabbedPane tabbedPane;
 	
 	/* GREGORIAN to IMLADRIS */
 	private JTextField year;
@@ -120,6 +121,12 @@ public class UI implements HyperlinkListener {
 	}
 	public void setFrame(JFrame frame) {
 		this.frmNotiImberisso = frame;
+	}
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
+	public void setTabbedPane(JTabbedPane tabbedPane) {
+		this.tabbedPane = tabbedPane;
 	}
 	
 	/* Gregorian to Imladris */
@@ -309,7 +316,7 @@ public class UI implements HyperlinkListener {
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		frmNotiImberisso.getContentPane().setLayout(gridBagLayout);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
 		gbc_tabbedPane.insets = new Insets(0, 0, 5, 0);
 		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
