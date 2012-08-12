@@ -309,6 +309,9 @@ public class UI implements HyperlinkListener {
 		frmNotiImberisso.setSize(600, 380);
 		frmNotiImberisso.setLocation(300,200);
 		frmNotiImberisso.setIconImage(icon);
+		if(Lang.uses_tengwar) {
+			frmNotiImberisso.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		};
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{520, 0};
 		gridBagLayout.rowHeights = new int[]{227, 0, 0};
@@ -326,6 +329,9 @@ public class UI implements HyperlinkListener {
 		
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab(Lang.to_imladris_tab.title, null, panel_1, Lang.to_imladris_tab.tooltip);
+		if(Lang.uses_tengwar) {
+			tabbedPane.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_1.setBorder(null);
 		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("max(2dlu;default)"),
@@ -363,17 +369,29 @@ public class UI implements HyperlinkListener {
 		
 		JLabel lblYear = new JLabel(Lang.to_imladris_tab.year_label);
 		lblYear.setFont(new Font("Dialog", Font.PLAIN, 12));
+		if(Lang.uses_tengwar) {
+			lblYear.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_1.add(lblYear, "5, 2, 3, 1, center, default");
 		
 		JLabel lblMonth = new JLabel(Lang.to_imladris_tab.month_label);
 		lblMonth.setFont(new Font("Dialog", Font.PLAIN, 12));
+		if(Lang.uses_tengwar) {
+			lblMonth.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_1.add(lblMonth, "9, 2, 5, 1, center, default");
 		
 		JLabel lblDay = new JLabel(Lang.to_imladris_tab.day_label);
 		lblDay.setFont(new Font("Dialog", Font.PLAIN, 12));
+		if(Lang.uses_tengwar) {
+			lblDay.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_1.add(lblDay, "15, 2, 3, 1, center, default");
 		
 		JLabel lblChooseGregorianDate = new JLabel(Lang.to_imladris_tab.choose_label);
+		if(Lang.uses_tengwar) {
+			lblChooseGregorianDate.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_1.add(lblChooseGregorianDate, "2, 4, 2, 1, fill, fill");
 		
 		year = new JTextField();
@@ -383,6 +401,9 @@ public class UI implements HyperlinkListener {
 				UIController.getInstance().updateDayComboGregorian();
 			}
 		});
+		if(Lang.uses_tengwar) {
+			year.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_1.add(year, "5, 4, 3, 1, fill, fill");
 		
 		month = new JComboBox();
@@ -410,10 +431,16 @@ public class UI implements HyperlinkListener {
 		
 		afterSunset = new JCheckBox(Lang.to_imladris_tab.after_sunset_label);
 		afterSunset.setFont(new Font("Dialog", Font.PLAIN, 12));
+		if(Lang.uses_tengwar) {
+			afterSunset.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		afterSunset.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_1.add(afterSunset, "5, 6, 5, 1");
 		
 		JLabel lblResultingImladrisDate = new JLabel(Lang.to_imladris_tab.resulting_label);
+		if(Lang.uses_tengwar) {
+			lblResultingImladrisDate.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_1.add(lblResultingImladrisDate, "2, 10, 2, 1, fill, fill");
 		
 		resImladris = new JTextPane();
@@ -423,6 +450,9 @@ public class UI implements HyperlinkListener {
 		
 		JLabel lblFormat = new JLabel(Lang.punctuation.parenthesis_open+Lang.to_imladris_tab.resulting_format+Lang.punctuation.parenthesis_close);
 		lblFormat.setFont(new Font("Dialog", Font.PLAIN, 10));
+		if(Lang.uses_tengwar) {
+			lblFormat.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_1.add(lblFormat, "5, 12, 13, 1, fill, fill");
 		
 		JPanel panel_2 = new JPanel();
@@ -469,21 +499,36 @@ public class UI implements HyperlinkListener {
 		
 		JLabel lblYn = new JLabel(Lang.from_imladris_tab.yen_label);
 		lblYn.setFont(new Font("Dialog", Font.PLAIN, 12));
+		if(Lang.uses_tengwar) {
+			lblYn.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_2.add(lblYn, "6, 2, 3, 1, center, default");
 		
 		JLabel lblLoa = new JLabel(Lang.from_imladris_tab.loa_label);
 		lblLoa.setFont(new Font("Dialog", Font.PLAIN, 12));
+		if(Lang.uses_tengwar) {
+			lblLoa.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_2.add(lblLoa, "10, 2, 3, 1, center, default");
 		
 		JLabel lblPeriod = new JLabel(Lang.from_imladris_tab.period_label);
 		lblPeriod.setFont(new Font("Dialog", Font.PLAIN, 12));
+		if(Lang.uses_tengwar) {
+			lblPeriod.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_2.add(lblPeriod, "14, 2, 5, 1, center, default");
 		
 		JLabel lblNewLabel = new JLabel(Lang.from_imladris_tab.day_label);
 		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 12));
+		if(Lang.uses_tengwar) {
+			lblNewLabel.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_2.add(lblNewLabel, "20, 2, 3, 1, center, default");
 		
 		JLabel lblS = new JLabel(Lang.from_imladris_tab.choose_label);
+		if(Lang.uses_tengwar) {
+			lblS.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_2.add(lblS, "2, 4, 3, 1, fill, fill");
 		
 		yen = new JComboBox();
@@ -544,6 +589,9 @@ public class UI implements HyperlinkListener {
 		
 		JLabel lblNewLabel_2 = new JLabel(Lang.punctuation.parenthesis_open+Lang.from_imladris_tab.resulting_format+Lang.punctuation.parenthesis_close);
 		lblNewLabel_2.setFont(new Font("Dialog", Font.PLAIN, 10));
+		if(Lang.uses_tengwar) {
+			lblNewLabel_2.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_2.add(lblNewLabel_2, "6, 12, 17, 1");
 		
 		JPanel panel = new JPanel();
@@ -577,12 +625,21 @@ public class UI implements HyperlinkListener {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblLocation = new JLabel(Lang.settings_tab.location);
+		if(Lang.uses_tengwar) {
+			lblLocation.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel.add(lblLocation, "4, 2, center, center");
 		
 		JLabel lblTimezone = new JLabel(Lang.settings_tab.timezone);
+		if(Lang.uses_tengwar) {
+			lblTimezone.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel.add(lblTimezone, "8, 2, center, center");
 		
 		JLabel lblCity = new JLabel(Lang.settings_tab.city_label+Lang.punctuation.double_dot);
+		if(Lang.uses_tengwar) {
+			lblCity.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel.add(lblCity, "2, 4, right, fill");
 		
 		city = new JTextField();
@@ -598,6 +655,9 @@ public class UI implements HyperlinkListener {
 		timeZone.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JLabel lblCountry = new JLabel(Lang.settings_tab.country_label+Lang.punctuation.double_dot);
+		if(Lang.uses_tengwar) {
+			lblCountry.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel.add(lblCountry, "2, 6, right, fill");
 		
 		country = new JTextField();
@@ -605,6 +665,9 @@ public class UI implements HyperlinkListener {
 		country.setColumns(10);
 		
 		JLabel lblLanguage = new JLabel(Lang.settings_tab.language_label+Lang.punctuation.double_dot);
+		if(Lang.uses_tengwar) {
+			lblLanguage.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel.add(lblLanguage, "2, 10, right, default");
 		
 		langCombo = new JComboBox();
@@ -613,6 +676,9 @@ public class UI implements HyperlinkListener {
 		
 		saveResult = new JLabel("");
 		saveResult.setForeground(Color.GREEN);
+		if(Lang.uses_tengwar) {
+			saveResult.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel.add(saveResult, "2, 12, 3, 1, right, fill");
 		
 		JButton btnSave = new JButton(Lang.settings_tab.save);
@@ -621,6 +687,9 @@ public class UI implements HyperlinkListener {
 				UIController.getInstance().saveSettings();
 			}
 		});
+		if(Lang.uses_tengwar) {
+			btnSave.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		btnSave.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel.add(btnSave, "4, 14, right, fill");
 		
@@ -635,6 +704,9 @@ public class UI implements HyperlinkListener {
 		
 		JLabel lblNotiImberisso = new JLabel(Lang.about_tab.app_name+" "+Lang.common.app_version);
 		lblNotiImberisso.setFont(new Font("Dialog", Font.BOLD, 12));
+		if(Lang.uses_tengwar) {
+			lblNotiImberisso.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		GridBagConstraints gbc_lblNotiImberisso = new GridBagConstraints();
 		gbc_lblNotiImberisso.anchor = GridBagConstraints.SOUTH;
 		gbc_lblNotiImberisso.gridwidth = 19;
@@ -658,6 +730,9 @@ public class UI implements HyperlinkListener {
 		aboutEditor.setEditable(false);
 		aboutEditor.setText(Lang.about_tab.info);
 		aboutEditor.addHyperlinkListener(this);
+		if(Lang.uses_tengwar) {
+			aboutEditor.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		GridBagConstraints gbc_dtrpnF = new GridBagConstraints();
 		gbc_dtrpnF.gridwidth = 19;
 		gbc_dtrpnF.insets = new Insets(0, 0, 0, 5);
@@ -684,10 +759,16 @@ public class UI implements HyperlinkListener {
 		gbc_lblTodaysDate.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTodaysDate.gridx = 0;
 		gbc_lblTodaysDate.gridy = 0;
+		if(Lang.uses_tengwar) {
+			lblTodaysDate.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		panel_3.add(lblTodaysDate, gbc_lblTodaysDate);
 		
 		locationInfo = new JLabel("");
 		locationInfo.setFont(new Font("Dialog", Font.PLAIN, 12));
+		if(Lang.uses_tengwar) {
+			locationInfo.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		GridBagConstraints gbc_locationInfo = new GridBagConstraints();
 		gbc_locationInfo.anchor = GridBagConstraints.EAST;
 		gbc_locationInfo.insets = new Insets(0, 0, 5, 0);
@@ -707,6 +788,9 @@ public class UI implements HyperlinkListener {
 		todayGregorian = new JTextPane();
 		todayGregorian.setEditable(false);
 		todayGregorian.setFont(new Font("Dialog", Font.BOLD, 12));
+		if(Lang.uses_tengwar) {
+			todayGregorian.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		todayGregorian.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		GridBagConstraints gbc_todayGregorian = new GridBagConstraints();
 		gbc_todayGregorian.insets = new Insets(0, 0, 5, 0);
@@ -717,6 +801,9 @@ public class UI implements HyperlinkListener {
 		
 		JLabel lblImladris = new JLabel(Lang.common.imladris_label);
 		lblImladris.setFont(new Font("Dialog", Font.PLAIN, 12));
+		if(Lang.uses_tengwar) {
+			lblImladris.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		GridBagConstraints gbc_lblImladris = new GridBagConstraints();
 		gbc_lblImladris.anchor = GridBagConstraints.EAST;
 		gbc_lblImladris.insets = new Insets(0, 0, 0, 5);
@@ -727,6 +814,9 @@ public class UI implements HyperlinkListener {
 		todayImladris = new JTextPane();
 		todayImladris.setEditable(false);
 		todayImladris.setFont(new Font("Dialog", Font.BOLD, 12));
+		if(Lang.uses_tengwar) {
+			todayImladris.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+		}
 		todayImladris.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		GridBagConstraints gbc_todayImladris = new GridBagConstraints();
 		gbc_todayImladris.fill = GridBagConstraints.BOTH;

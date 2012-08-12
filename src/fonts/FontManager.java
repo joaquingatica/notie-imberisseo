@@ -21,9 +21,16 @@ public class FontManager {
 		}
 		return font;
 	}
-	public static Font getTrueTypeFont(String fontFileName) throws FontFormatException, IOException {
+	public static Font getTrueTypeFont(String fontFileName) {
 		InputStream fontStream = new Object().getClass().getResourceAsStream("/fonts/files/"+fontFileName);
-		Font tengwarFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+		Font tengwarFont = null;
+		try {
+			tengwarFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+			tengwarFont = tengwarFont.deriveFont(Font.PLAIN);
+			tengwarFont = tengwarFont.deriveFont((float)14);
+		} catch (FontFormatException e) {
+		} catch (IOException e) {
+		}
 		return tengwarFont;
 	}
 	public static boolean registerFont(String fontFilename) {

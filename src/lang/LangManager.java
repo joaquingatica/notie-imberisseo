@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 public class LangManager {
 	
-	private static final String[] languages = {"English", "Espanol", "Quenya", "Deutsch"};
-	private static final String[] languages_short = {"eng", "esp", "qya", "deu"};
-	private static final String[] languages_printable = {"English", "Español", "Quenya", "Deutsch"};
+	private static final String[] languages = {"Quenya", "QuenyaTengwar", "English", "Espanol", "Deutsch"};
+	private static final String[] languages_short = {"qya", "qyt", "eng", "esp", "deu"};
+	private static final String[] languages_printable = {"Quenya", "Quenya Tengwar (Beta)", "English", "Español", "Deutsch"};
 	
 	private HashMap<String,Lang> langs;
 	private Lang definedLang;
