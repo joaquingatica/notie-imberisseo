@@ -96,7 +96,9 @@ public class LangEspanol extends Lang {
 						  	  "Por información sobre el <b>calendario</b>, visita Quenya101 Language Institute:<br />" +
 						  	  "<a href=\"http://www.quenya101.com\">www.quenya101.com</a><br />" +
 						  	  "<br />" +
-						  	  "Agradecimientos en especial a <b>Erunno Alcarinollo</b>.</font>";
+						  	  "Agradecimientos en especial a <b>Erunno Alcarinollo</b>.<br />" +
+						  	  "Traducción al Ruso: <b><a href=\"http://www.facebook.com/tienoren\">Aen Oroniel Tiënoren</a></b>" +
+						  	  "</font>";
 	}
 	
 }

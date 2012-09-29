@@ -95,8 +95,9 @@ public class LangDeutsch extends Lang {
 						  	  "<font size=\"2\">Open-Source-Software an <a href=\"http://github.com/joaquingatica/Notie-Imberisseo\">github.com/joaquingatica/Notie-Imberisseo</a> gehostet.<br />" +
 						  	  "Für Referenze über den <b>Kalender</b>, Quenya101 Language Institute besuchen:<br />" +
 						  	  "<a href=\"http://www.quenya101.com\">www.quenya101.com</a><br />" +
-						  	  "<br />" +
-						  	  "Besonderer Dank geht an <b>Erunno Alcarinollo</b>.</font>";
+						  	  "<br />Russisch Übersetzung" +
+						  	  "Besonderer Dank geht an <b>Erunno Alcarinollo</b>.</font>" +
+						  	  "Russisch Übersetzung: <b><a href=\"http://www.facebook.com/tienoren\">Aen Oroniel Tiënoren</a></b>";
 	}
 	
 }
