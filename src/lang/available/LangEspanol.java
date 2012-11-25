@@ -54,7 +54,7 @@ public class LangEspanol extends Lang {
 		/* To Imladris tab */
 		Lang.to_imladris_tab.title = "A fecha de Imladris";
 		Lang.to_imladris_tab.tooltip = "Convertir del calendario Gregoriano al de Imladris";
-		Lang.to_imladris_tab.choose_label = "Elije fecha Gregoriana";
+		Lang.to_imladris_tab.choose_label = "Elige fecha Gregoriana";
 		Lang.to_imladris_tab.resulting_label = "Fecha de Imladris resultante";
 		Lang.to_imladris_tab.year_label = "Año";
 		Lang.to_imladris_tab.year_tooltip = "Años válidos: 1 - 2299";
@@ -65,7 +65,7 @@ public class LangEspanol extends Lang {
 		/* From Imladris tab */
 		Lang.from_imladris_tab.title = "Desde fecha de Imladris";
 		Lang.from_imladris_tab.tooltip = "Convertir del calendario de Imladris al Gregoriano";
-		Lang.from_imladris_tab.choose_label = "Elije fecha de Imladris";
+		Lang.from_imladris_tab.choose_label = "Elige fecha de Imladris";
 		Lang.from_imladris_tab.resulting_label = "Fecha Gregoriana resultante";
 		Lang.from_imladris_tab.yen_label = "Yén";
 		Lang.from_imladris_tab.loa_label = "Loa";

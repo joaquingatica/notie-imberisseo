@@ -63,7 +63,7 @@ public class LangEnglish extends Lang {
 		Lang.to_imladris_tab.after_sunset_label = "After sunset";
 		Lang.to_imladris_tab.resulting_format = "Format: Weekday, Period [Day#], Yén Loa";
 		/* From Imladris tab */
-		Lang.from_imladris_tab.title = "Form Imladris Reckoning";
+		Lang.from_imladris_tab.title = "From Imladris Reckoning";
 		Lang.from_imladris_tab.tooltip = "Convert from Imladris to Gregorian calendar";
 		Lang.from_imladris_tab.choose_label = "Choose Imladris date";
 		Lang.from_imladris_tab.resulting_label = "Resulting Gregorian date";
