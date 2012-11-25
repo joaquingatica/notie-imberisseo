@@ -30,10 +30,6 @@ package main;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.RowSpec;
 
 import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
@@ -73,6 +69,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 import lang.Lang;
 import lang.LangManager;
