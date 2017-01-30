@@ -70,7 +70,7 @@ import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
@@ -338,35 +338,35 @@ public class UI implements HyperlinkListener {
 				ColumnSpec.decode("max(2dlu;default)"),
 				ColumnSpec.decode("172px"),
 				ColumnSpec.decode("32px"),
-				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				FormSpecs.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("55px"),
-				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				FormSpecs.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("32px"),
-				FormFactory.RELATED_GAP_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(20dlu;default):grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,},
 			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(14dlu;default)"),
-				FormFactory.RELATED_GAP_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(5dlu;default)"),
-				FormFactory.RELATED_GAP_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(12dlu;default)"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblYear = new JLabel(Lang.to_imladris_tab.year_label);
 		lblYear.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -460,78 +460,78 @@ public class UI implements HyperlinkListener {
 		tabbedPane.addTab(Lang.from_imladris_tab.title, null, panel_2, Lang.from_imladris_tab.tooltip);
 		panel_2.setBorder(null);
 		panel_2.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(87dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("left:max(13dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(12dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(8dlu;default):grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(9dlu;default):grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,},
 			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(5dlu;default)"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
-		
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,}));
+
 		JLabel lblYn = new JLabel(Lang.from_imladris_tab.yen_label);
 		lblYn.setFont(new Font("Dialog", Font.PLAIN, 12));
 		if(Lang.uses_tengwar) {
 			lblYn.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
 		}
 		panel_2.add(lblYn, "6, 2, 3, 1, center, default");
-		
+
 		JLabel lblLoa = new JLabel(Lang.from_imladris_tab.loa_label);
 		lblLoa.setFont(new Font("Dialog", Font.PLAIN, 12));
 		if(Lang.uses_tengwar) {
 			lblLoa.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
 		}
 		panel_2.add(lblLoa, "10, 2, 3, 1, center, default");
-		
+
 		JLabel lblPeriod = new JLabel(Lang.from_imladris_tab.period_label);
 		lblPeriod.setFont(new Font("Dialog", Font.PLAIN, 12));
 		if(Lang.uses_tengwar) {
 			lblPeriod.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
 		}
 		panel_2.add(lblPeriod, "14, 2, 5, 1, center, default");
-		
+
 		JLabel lblNewLabel = new JLabel(Lang.from_imladris_tab.day_label);
 		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 12));
 		if(Lang.uses_tengwar) {
 			lblNewLabel.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
 		}
 		panel_2.add(lblNewLabel, "20, 2, 3, 1, center, default");
-		
+
 		JLabel lblS = new JLabel(Lang.from_imladris_tab.choose_label);
 		if(Lang.uses_tengwar) {
 			lblS.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
 		}
 		panel_2.add(lblS, "2, 4, 3, 1, fill, fill");
-		
+
 		yen = new JComboBox();
 		yen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -540,7 +540,7 @@ public class UI implements HyperlinkListener {
 		});
 		yen.setModel(new DefaultComboBoxModel(ImladrisInfo.getInstance().getYeniArray()));
 		panel_2.add(yen, "6, 4, 3, 1, fill, fill");
-		
+
 		loa = new JTextField();
 		loa.addFocusListener(new FocusAdapter() {
 			@Override
@@ -551,7 +551,7 @@ public class UI implements HyperlinkListener {
 		loa.setToolTipText(Lang.from_imladris_tab.loa_tooltip);
 		panel_2.add(loa, "10, 4, 3, 1, fill, fill");
 		loa.setColumns(10);
-		
+
 		period = new JComboBox();
 		period.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -560,11 +560,11 @@ public class UI implements HyperlinkListener {
 		});
 		period.setModel(new DefaultComboBoxModel(ImladrisInfo.getInstance().getPeriodsArray()));
 		panel_2.add(period, "14, 4, 5, 1, fill, fill");
-		
+
 		dayOfLoa = new JComboBox();
 		dayOfLoa.setEnabled(false);
 		panel_2.add(dayOfLoa, "20, 4, 3, 1, fill, fill");
-		
+
 		toGregorian = new JButton(">>");
 		toGregorian.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -574,56 +574,56 @@ public class UI implements HyperlinkListener {
 		toGregorian.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		toGregorian.setEnabled(false);
 		panel_2.add(toGregorian, "16, 6, 7, 1, fill, fill");
-		
+
 		beforeMidnight = new JCheckBox(Lang.from_imladris_tab.before_midnight_label);
 		beforeMidnight.setFont(new Font("Dialog", Font.PLAIN, 12));
 		beforeMidnight.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_2.add(beforeMidnight, "6, 6, 9, 1, fill, fill");
-		
+
 		JLabel lblNewLabel_1 = new JLabel(Lang.from_imladris_tab.resulting_label);
 		panel_2.add(lblNewLabel_1, "2, 10, 3, 1, fill, fill");
-		
+
 		resGregorian = new JTextPane();
 		resGregorian.setEditable(false);
 		resGregorian.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		panel_2.add(resGregorian, "6, 10, 17, 1, fill, fill");
-		
+
 		JLabel lblNewLabel_2 = new JLabel(Lang.punctuation.parenthesis_open+Lang.from_imladris_tab.resulting_format+Lang.punctuation.parenthesis_close);
 		lblNewLabel_2.setFont(new Font("Dialog", Font.PLAIN, 10));
 		if(Lang.uses_tengwar) {
 			lblNewLabel_2.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
 		}
 		panel_2.add(lblNewLabel_2, "6, 12, 17, 1");
-		
+
 		JPanel panel = new JPanel();
 		panel.setToolTipText("");
 		tabbedPane.addTab(Lang.settings_tab.title, null, panel, Lang.settings_tab.tooltip);
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(61dlu;default):grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(112dlu;default)"),},
 			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(16dlu;default):grow"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblLocation = new JLabel(Lang.settings_tab.location);
 		if(Lang.uses_tengwar) {

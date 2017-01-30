@@ -29,7 +29,7 @@ package config;
 
 public class Config {
 	
-	private static String GOOGLE_MAPS_API_KEY = "AIzaSyAK9hXpQhpoPoF9hSEHIBcqACmJcbHtW8c";
+	private static String GOOGLE_MAPS_API_KEY = "AIzaSyAYreK5EtPQZwVr--GkX0oaSNhS-IG_x8I";
 	private static long RATE_LIMIT_INTERVAL = (long)500; // In milliseconds
 	private static int CONNECTION_TIMEOUT = 3000; // In milliseconds
 	

@@ -189,7 +189,7 @@ public class UIController {
 			String place = this.makeLocationString(city, country);
 			if(place.length() > 0) {
 				GeoAddressStandardizer st = new GeoAddressStandardizer(Config.getGoogleMapsApiKey(), Config.getRateLimitInterval());
-				HttpClientParams params = st.getHttpClientParams();
+				HttpClientParams params = new HttpClientParams();
 			    params.setSoTimeout(Config.getConnectionTimeout());
 			    st.setHttpClientParams(params);
 				Location location = null;
