@@ -302,7 +302,7 @@ public class UI implements HyperlinkListener {
 		FontManager.registerAvailableFonts();
 		
 		/* Get app icon */
-		Image icon = Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("res/images/icon.png"));
+		Image icon = Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("images/icon.png"));
 		
 		frmNotiImberisso = new JFrame();
 		frmNotiImberisso.setTitle(Lang.common.app_title);

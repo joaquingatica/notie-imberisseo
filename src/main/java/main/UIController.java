@@ -45,8 +45,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-import org.apache.commons.httpclient.params.HttpClientParams;
-
 import lang.Lang;
 import lang.LangManager;
 
@@ -57,9 +55,10 @@ import config.Config;
 import data.GregorianInfo;
 import data.ImladrisInfo;
 import erutulco.utils.ImladrisCalendar;
-import geo.google.GeoAddressStandardizer;
-import geo.google.GeoException;
-import geo.google.datamodel.GeoCoordinate;
+
+import com.google.maps.GeocodingApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.GeocodingResult;
 
 public class UIController {
 
@@ -188,7 +187,24 @@ public class UIController {
 		if(!useCache) {
 			String place = this.makeLocationString(city, country);
 			if(place.length() > 0) {
-				GeoAddressStandardizer st = new GeoAddressStandardizer(Config.getGoogleMapsApiKey(), Config.getRateLimitInterval());
+				try {
+					GeoApiContext context = new GeoApiContext().setApiKey(Config.getGoogleMapsApiKey());
+					GeocodingResult[] results = GeocodingApi.geocode(context, place).await();
+
+					double latitude = results[0].geometry.location.lat;
+					double longitude = results[0].geometry.location.lat;
+					Location location = new Location(Double.toString(latitude), Double.toString(longitude));
+					String timezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
+					SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, timezone);
+					String sunset = calculator.getOfficialSunsetForDate(calendar)+":00";
+					data.put(FIELD_CACHE_SUNSET, sunset);
+					time = Time.valueOf(sunset);
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+					useCache = true;
+				}
+
+				/* GeoAddressStandardizer st = new GeoAddressStandardizer(Config.getGoogleMapsApiKey(), Config.getRateLimitInterval());
 				HttpClientParams params = new HttpClientParams();
 			    params.setSoTimeout(Config.getConnectionTimeout());
 			    st.setHttpClientParams(params);
@@ -205,7 +221,7 @@ public class UIController {
 					time = Time.valueOf(sunset);
 				} catch (GeoException e) {
 					useCache = true;
-				}
+				}*/
 			}
 			else {
 				useCache = true;

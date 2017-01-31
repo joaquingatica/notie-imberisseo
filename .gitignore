@@ -1,4 +1,4 @@
-/src/config/Config.java
+/config/Config.java
 
 # IDEA Ignores #
 ################
@@ -8,6 +8,14 @@
 .idea/
 out/
 local.properties
+
+# Gradle ignores #
+##################
+.gradle
+/build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
 
 # Generic Android ignores #
 ###########################
