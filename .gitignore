@@ -16,6 +16,7 @@ local.properties
 gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache
+classes
 
 # Generic Android ignores #
 ###########################
