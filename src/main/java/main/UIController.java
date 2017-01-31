@@ -181,6 +181,9 @@ public class UIController {
 		return time;
 	}
 	public Time calculateSunset(Calendar calendar, String city, String country, boolean useCacheSunset) {
+		return this.calculateSunset(calendar, city, country, useCacheSunset, false);
+	}
+	public Time calculateSunset(Calendar calendar, String city, String country, boolean useCacheSunset, boolean forceCache) {
 		Time time = null;
 		boolean useCache = useCacheSunset;
 		Preferences data = this.getCurrentPreferences();
@@ -200,37 +203,19 @@ public class UIController {
 					data.put(FIELD_CACHE_SUNSET, sunset);
 					time = Time.valueOf(sunset);
 				} catch (Exception e) {
-					System.err.println(e.getMessage());
 					useCache = true;
 				}
-
-				/* GeoAddressStandardizer st = new GeoAddressStandardizer(Config.getGoogleMapsApiKey(), Config.getRateLimitInterval());
-				HttpClientParams params = new HttpClientParams();
-			    params.setSoTimeout(Config.getConnectionTimeout());
-			    st.setHttpClientParams(params);
-				Location location = null;
-				try {
-					GeoCoordinate geo = st.standardizeToGeoCoordinate(place);
-					double latitude = geo.getLatitude();
-					double longitude = geo.getLongitude();
-					location = new Location(Double.toString(latitude), Double.toString(longitude));
-					String timezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
-					SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, timezone);
-					String sunset = calculator.getOfficialSunsetForDate(calendar)+":00";
-					data.put(FIELD_CACHE_SUNSET, sunset);
-					time = Time.valueOf(sunset);
-				} catch (GeoException e) {
-					useCache = true;
-				}*/
 			}
 			else {
 				useCache = true;
 			}
 		}
-		if(useCache) {
+		if(useCache && !forceCache) {
 			String cacheSunset = data.get(FIELD_CACHE_SUNSET, DEF_CACHE_SUNSET);
 			if(!cacheSunset.isEmpty()) {
 				time = Time.valueOf(cacheSunset);
+			} else {
+				time = this.calculateSunset(calendar, city, country, false, true);
 			}
 		}
 		return time;
@@ -562,7 +547,7 @@ public class UIController {
 	/************ OTHER *****************/
 	
 	private String gregorianToString(GregorianCalendar gcal) {
-		SimpleDateFormat sdf = new SimpleDateFormat("EEEEEEEE, MMMMMMMMM d, yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("EEEEEEEE, MMMMMMMMM d, y");
 		String gstr = sdf.format(gcal.getTime());
 		return gstr;
 	}
