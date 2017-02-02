@@ -1,6 +1,6 @@
 def PACKAGE = 'com.erutulco'
 def ID = 'notie-imberisseo'
-def VERSION = '2.5.0'
+def VERSION = '2.5.1'
 def STATE = 'stable'
 def MAIN_CLASS = 'main.NotieImberisseo'
 
