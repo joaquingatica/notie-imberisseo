@@ -3,10 +3,8 @@ package fonts;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 
 public class FontManager {
 	
@@ -26,15 +24,13 @@ public class FontManager {
 	public static Font getTrueTypeFont(String fontFileName) {
 		Font tengwarFont = null;
 		try {
-			File fontFile = new File(ClassLoader.getSystemResource("fonts/" + fontFileName).toURI());
-			tengwarFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+			InputStream stream = FontManager.class.getResourceAsStream("/fonts/" + fontFileName);
+			tengwarFont = Font.createFont(Font.TRUETYPE_FONT, stream);
 			tengwarFont = tengwarFont.deriveFont(Font.PLAIN);
 			tengwarFont = tengwarFont.deriveFont((float)14);
 		} catch (FontFormatException e) {
 			System.err.println(e.getMessage());
 		} catch (IOException e) {
-			System.err.println(e.getMessage());
-		} catch (URISyntaxException e ){
 			System.err.println(e.getMessage());
 		}
 		return tengwarFont;

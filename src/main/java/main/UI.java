@@ -59,10 +59,12 @@ import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Color;
-import java.awt.Toolkit;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
@@ -301,15 +303,19 @@ public class UI implements HyperlinkListener {
 		/* Register fonts */
 		FontManager.registerAvailableFonts();
 		
-		/* Get app icon */
-		Image icon = Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("images/icon.png"));
-		
 		frmNotiImberisso = new JFrame();
 		frmNotiImberisso.setTitle(Lang.common.app_title);
 		frmNotiImberisso.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmNotiImberisso.setSize(600, 380);
 		frmNotiImberisso.setLocation(300,200);
-		frmNotiImberisso.setIconImage(icon);
+		/* Get app icon */
+		try {
+			InputStream is = new BufferedInputStream(this.getClass().getResourceAsStream("/images/icon.png"));
+			Image icon = ImageIO.read(is);
+			frmNotiImberisso.setIconImage(icon);
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
 		if(Lang.uses_tengwar) {
 			frmNotiImberisso.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
 		};
