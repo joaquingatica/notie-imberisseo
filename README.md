@@ -3,6 +3,8 @@
 Convert dates to and from Imladris Reckoning (a.k.a. Elvish Calendar) and get current date with sunset sync.
 Multi-language app, currently available in: English, Spanish, German, Russian & Quenya (regular and Tengwar modes).
 
+![screenshot](docs/screenshot.png "Main screen")
+
 ## Requirements
 
 * [Java Development Kit (JDK) 7 or newer](http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html)
