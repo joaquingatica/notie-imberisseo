@@ -1,26 +1,47 @@
-group 'com.erutulco'
-version 'notie-imberisseo'
+def PACKAGE = 'com.erutulco'
+def ID = 'notie-imberisseo'
+def VERSION = '2.5.0'
+def STATE = 'stable'
+def MAIN_CLASS = 'main.NotieImberisseo'
+
+group PACKAGE
+version ID
 
 apply plugin: 'java'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 apply plugin: 'application'
-mainClassName = "main.NotieImberisseo"
+mainClassName = MAIN_CLASS
 
 repositories {
     mavenCentral()
-    flatDir {
-        dirs 'libs'
-    }
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
     compile 'com.google.maps:google-maps-services:0.1.17'
     compile 'com.jgoodies:jgoodies-common:1.6.0'
     compile 'com.jgoodies:jgoodies-looks:2.5.3'
     compile 'com.jgoodies:jgoodies-forms:1.7.2'
     compile 'com.jgoodies:jgoodies-binding:2.10.0'
     compile 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
-    compile name: 'imladris-calendar'
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
+
+shadowJar {
+    baseName = ID
+    version = VERSION
+    classifier = STATE
+    configurations = [project.configurations.compile]
 }

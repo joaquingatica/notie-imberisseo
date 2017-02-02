@@ -29,8 +29,7 @@ package data;
 
 import java.util.ArrayList;
 
-import erutulco.utils.ImladrisCalendar;
-
+import com.erutulco.ImladrisCalendar;
 
 public class ImladrisInfo {
 	

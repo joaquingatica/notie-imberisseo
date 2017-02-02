@@ -54,7 +54,7 @@ import com.luckycatlabs.sunrisesunset.dto.Location;
 import config.Config;
 import data.GregorianInfo;
 import data.ImladrisInfo;
-import erutulco.utils.ImladrisCalendar;
+import com.erutulco.ImladrisCalendar;
 
 import com.google.maps.GeocodingApi;
 import com.google.maps.GeoApiContext;
