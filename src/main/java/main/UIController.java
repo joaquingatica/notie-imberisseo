@@ -195,7 +195,7 @@ public class UIController {
                     GeocodingResult[] results = GeocodingApi.geocode(context, place).await();
 
                     double latitude = results[0].geometry.location.lat;
-                    double longitude = results[0].geometry.location.lat;
+                    double longitude = results[0].geometry.location.lng;
                     Location location = new Location(Double.toString(latitude), Double.toString(longitude));
                     String timezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
                     SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, timezone);
