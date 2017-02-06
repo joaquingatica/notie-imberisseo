@@ -1,0 +1,12 @@
+{
+  "platform": "windows32",
+  "jdk": "https://bitbucket.org/alexkasko/openjdk-unofficial-builds/downloads/openjdk-1.7.0-u80-unofficial-windows-i586-image.zip",
+  "executable": "notie-imberisseo",
+  "classpath": [],
+  "mainclass": "main.NotieImberisseo",
+  "vmargs": [
+    "Xmx1G"
+  ],
+  "minimizejre": "oraclejre8",
+  "output": "build/packr/win-x86"
+}
