@@ -45,6 +45,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+import com.google.maps.TimeZoneApi;
 import lang.Lang;
 import lang.LangManager;
 
@@ -193,14 +194,16 @@ public class UIController {
                 try {
                     GeoApiContext context = new GeoApiContext().setApiKey(Config.getGoogleMapsApiKey());
                     GeocodingResult[] results = GeocodingApi.geocode(context, place).await();
+                    TimeZone tz = TimeZoneApi.getTimeZone(context, results[0].geometry.location).await();
+                    data.put(FIELD_TIMEZONE, tz.getID());
 
                     double latitude = results[0].geometry.location.lat;
                     double longitude = results[0].geometry.location.lng;
                     Location location = new Location(Double.toString(latitude), Double.toString(longitude));
-                    String timezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
-                    SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, timezone);
+                    SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, tz);
                     String sunset = calculator.getOfficialSunsetForDate(calendar)+":00";
                     data.put(FIELD_CACHE_SUNSET, sunset);
+
                     time = Time.valueOf(sunset);
                 } catch (Exception e) {
                     useCache = true;
@@ -497,13 +500,6 @@ public class UIController {
         String lang = langManager.getDefinedLang().getShortName();
         JComboBox langsCombo = ui.getLangCombo();
         langsCombo.setSelectedIndex(Arrays.asList(LangManager.getLanguagesShort()).indexOf(lang));
-        /* Time Zone */
-        String[] tzs = TimeZone.getAvailableIDs();
-        Arrays.sort(tzs);
-        JList list = ui.getTimeZone();
-        list.setListData(tzs);
-        String timezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
-        list.setSelectedValue(timezone, true);
     }
     public void saveSettings() {
         UI ui = this.getUi();
@@ -520,12 +516,6 @@ public class UIController {
         String newCountry = ui.getCountry().getText();
         if(!savedCountry.equals(newCountry)) {
             data.put(FIELD_COUNTRY, newCountry);
-            updateDate = true;
-        }
-        String savedTimezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
-        String newTimezone = (String)ui.getTimeZone().getSelectedValue();
-        if(!savedTimezone.equals(newTimezone)) {
-            data.put(FIELD_TIMEZONE, newTimezone);
             updateDate = true;
         }
         /* Lang */

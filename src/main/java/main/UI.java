@@ -107,7 +107,6 @@ public class UI implements HyperlinkListener {
     private JTextField city;
     private JTextField country;
     private JComboBox langCombo;
-    private JList timeZone;
     private JLabel saveResult;
 
     /* ABOUT */
@@ -232,12 +231,6 @@ public class UI implements HyperlinkListener {
     }
     public void setLangCombo(JComboBox langCombo) {
         this.langCombo = langCombo;
-    }
-    public JList getTimeZone() {
-        return timeZone;
-    }
-    public void setTimeZone(JList timeZone) {
-        this.timeZone = timeZone;
     }
     public JLabel getSaveResult() {
         return saveResult;
@@ -637,12 +630,6 @@ public class UI implements HyperlinkListener {
         }
         panel.add(lblLocation, "4, 2, center, center");
 
-        JLabel lblTimezone = new JLabel(Lang.settings_tab.timezone);
-        if(Lang.uses_tengwar) {
-            lblTimezone.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
-        }
-        panel.add(lblTimezone, "8, 2, center, center");
-
         JLabel lblCity = new JLabel(Lang.settings_tab.city_label+Lang.punctuation.double_dot);
         if(Lang.uses_tengwar) {
             lblCity.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
@@ -652,14 +639,6 @@ public class UI implements HyperlinkListener {
         city = new JTextField();
         panel.add(city, "4, 4, fill, fill");
         city.setColumns(10);
-
-        JScrollPane scrollPane = new JScrollPane();
-        panel.add(scrollPane, "8, 4, 1, 11, fill, fill");
-
-        timeZone = new JList();
-        scrollPane.setViewportView(timeZone);
-        timeZone.setBorder(null);
-        timeZone.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JLabel lblCountry = new JLabel(Lang.settings_tab.country_label+Lang.punctuation.double_dot);
         if(Lang.uses_tengwar) {
