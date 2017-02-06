@@ -27,6 +27,11 @@
 
 package main;
 
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.File;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,12 +40,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.prefs.Preferences;
+import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JList;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -61,6 +67,10 @@ import com.google.maps.GeocodingApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.GeocodingResult;
 
+import com.maxmind.geoip.LookupService;
+
+import org.apache.commons.io.FileUtils;
+
 public class UIController {
 
     private static final String FIELD_CITY = "city";
@@ -68,11 +78,13 @@ public class UIController {
     private static final String FIELD_LANG = "language";
     private static final String FIELD_TIMEZONE = "timezone";
     private static final String FIELD_CACHE_SUNSET = "sunset";
-    private static final String DEF_CITY = "Montevideo";
-    private static final String DEF_COUNTRY = "Uruguay";
+    private static final String FIELD_IP = "ip";
+    private static String DEF_COUNTRY = "Uruguay";
+    private static String DEF_CITY = "Montevideo";
     private static final String DEF_LANG = "eng";
     private static final String DEF_TIMEZONE = TimeZone.getDefault().getID();
     private static final String DEF_CACHE_SUNSET = "";
+    private static final String DEF_IP = "";
 
     private UI ui;
     private Preferences preferences = null;
@@ -111,6 +123,11 @@ public class UIController {
             langManager.defineLang(DEF_LANG);
         }
         this.setLangManager(langManager);
+        String[] countryCity = this.getCurrentCountryAndCity();
+        if (countryCity[0] != null && !countryCity[0].isEmpty() && countryCity[1] != null && !countryCity[1].isEmpty()) {
+            DEF_COUNTRY = countryCity[0];
+            DEF_CITY = countryCity[1];
+        }
     }
 
     public void initializeWindow(boolean useCacheSunset) {
@@ -173,6 +190,59 @@ public class UIController {
         TimeZone tz = TimeZone.getTimeZone(data.get(FIELD_TIMEZONE, DEF_TIMEZONE));
         Time time = this.calculateSunsetForActualLocation(new GregorianCalendar(tz), useCacheSunset);
         return time;
+    }
+    public String getIpAddress() {
+        return this.getIpAddress(false);
+    }
+    public String getIpAddress(boolean ignoreCache) {
+        Preferences data = this.getCurrentPreferences();
+        String ip = data.get(FIELD_IP, DEF_IP);
+        if (ignoreCache || ip == null || ip.isEmpty()) {
+            try {
+                URL url = new URL("https://api.ipify.org");
+                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                InputStream is = connection.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                StringBuilder out = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    out.append(line);
+                }
+                ip = out.toString();
+                data.put(FIELD_IP, ip);
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+        return ip;
+    }
+    public String[] getCountryAndCityFromIpAddress(String ip) {
+        String[] res = new String[2];
+
+        try {
+            InputStream is = this.getClass().getResourceAsStream("/maxmind/GeoLiteCity.dat");
+            File tempFile = File.createTempFile("GeoLiteCity", ".dat");
+            tempFile.deleteOnExit();
+            FileUtils.copyInputStreamToFile(is, tempFile);
+
+            LookupService cl = new LookupService(tempFile ,LookupService.GEOIP_MEMORY_CACHE | LookupService.GEOIP_CHECK_CACHE);
+            com.maxmind.geoip.Location location = cl.getLocation(ip);
+            res[0] = location.countryName;
+            res[1] = location.city;
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return res;
+    }
+    public String[] getCurrentCountryAndCity() {
+        String ip = this.getIpAddress();
+        String[] result = {};
+        if (ip != null && !ip.isEmpty()) {
+            result = this.getCountryAndCityFromIpAddress(ip);
+        }
+        return result;
     }
     public Time calculateSunsetForActualLocation(Calendar calendar, boolean useCacheSunset) {
         Preferences data = this.getCurrentPreferences();

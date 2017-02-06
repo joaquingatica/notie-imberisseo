@@ -20,6 +20,8 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'commons-io:commons-io:2.5'
+    compile 'com.maxmind.geoip:geoip-api:1.2.11'
     compile 'com.google.maps:google-maps-services:0.1.17'
     compile 'com.jgoodies:jgoodies-common:1.6.0'
     compile 'com.jgoodies:jgoodies-looks:2.5.3'
