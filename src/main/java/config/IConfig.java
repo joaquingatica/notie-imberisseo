@@ -28,9 +28,9 @@
 package config;
 
 public interface IConfig {
-	
-	public String getGoogleMapsApiKey();
-	public long getRateLimitInterval();
-	public int getConnectionTimeout();
-	
+
+    public String getGoogleMapsApiKey();
+    public long getRateLimitInterval();
+    public int getConnectionTimeout();
+
 }
