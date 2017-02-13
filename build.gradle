@@ -14,6 +14,13 @@ targetCompatibility = 1.7
 apply plugin: 'application'
 mainClassName = MAIN_CLASS
 
+// uses config file 'config/checkstyle/checkstyle.xml'
+apply plugin: 'checkstyle'
+checkstyle {
+    toolVersion = '7.5'
+    configFile = file('checkstyle.xml')
+}
+
 repositories {
     mavenCentral()
 }
