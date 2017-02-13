@@ -1,4 +1,4 @@
-package lang;
+package com.erutulco.notieimberisseo.lang;
 
 import java.util.HashMap;
 
@@ -49,7 +49,7 @@ public class LangManager {
 
   /**
    * Singleton method for LangManager.
-   * @return LangManager instance of the lang manager.
+   * @return LangManager instance of the com.erutulco.notieimberisseo.lang manager.
    */
   public static LangManager getInstance() {
     if (LangManager.instance == null) {
@@ -65,7 +65,7 @@ public class LangManager {
       String language = LangManager.languages[i];
       ClassLoader classLoader = LangManager.class.getClassLoader();
       try {
-        Class<?> langClass = classLoader.loadClass("lang.available.Lang" + language);
+        Class<?> langClass = classLoader.loadClass("com.erutulco.notieimberisseo.lang.available.Lang" + language);
         Lang lang = (Lang) langClass.newInstance();
         langs.put(lang.getShortName(), lang);
       } catch (ClassNotFoundException e) {
@@ -84,7 +84,7 @@ public class LangManager {
   }
 
   /**
-   * Define an existing lang.
+   * Define an existing com.erutulco.notieimberisseo.lang.
    * @param shortName Short name of the language
    * @return boolean Success/error
    */

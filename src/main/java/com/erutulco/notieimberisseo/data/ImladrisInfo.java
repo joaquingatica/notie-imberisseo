@@ -23,7 +23,7 @@
  * along with "Notië Imberissëo".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package data;
+package com.erutulco.notieimberisseo.data;
 
 import com.erutulco.ImladrisCalendar;
 

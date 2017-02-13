@@ -2,7 +2,7 @@ def PACKAGE = 'com.erutulco'
 def ID = 'notie-imberisseo'
 def VERSION = '2.6.0'
 def STATE = 'rc'
-def MAIN_CLASS = 'main.NotieImberisseo'
+def MAIN_CLASS = 'com.erutulco.notieimberisseo.NotieImberisseo'
 
 group PACKAGE
 version ID
@@ -14,7 +14,6 @@ targetCompatibility = 1.7
 apply plugin: 'application'
 mainClassName = MAIN_CLASS
 
-// uses config file 'config/checkstyle/checkstyle.xml'
 apply plugin: 'checkstyle'
 checkstyle {
     toolVersion = '7.5'
@@ -46,8 +45,7 @@ buildscript {
     }
 }
 
-apply plugin: "com.github.johnrengelman.shadow"
-
+apply plugin: 'com.github.johnrengelman.shadow'
 shadowJar {
     baseName = ID
     version = VERSION

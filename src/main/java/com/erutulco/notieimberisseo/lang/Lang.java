@@ -1,4 +1,4 @@
-package lang;
+package com.erutulco.notieimberisseo.lang;
 
 public abstract class Lang {
 

@@ -1,4 +1,4 @@
-package fonts;
+package com.erutulco.notieimberisseo.fonts;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -8,7 +8,7 @@ import java.io.InputStream;
 
 public class FontManager {
 
-  private static final String[] fonts = {"tngan.ttf", "tnganb.ttf", "tngani.ttf"};
+  private static final String[] fonts = {"tngan.ttf", "tnganb.ttf", "tnganbi.ttf"};
 
   /**
    * Get Font object from filename.
@@ -38,13 +38,15 @@ public class FontManager {
   public static Font getTrueTypeFont(String fontFileName) {
     Font tengwarFont = null;
     try {
-      InputStream stream = FontManager.class.getResourceAsStream("/fonts/" + fontFileName);
+      InputStream stream = FontManager.class.getResourceAsStream("/com/erutulco/notieimberisseo/fonts/" + fontFileName);
       tengwarFont = Font.createFont(Font.TRUETYPE_FONT, stream);
       tengwarFont = tengwarFont.deriveFont(Font.PLAIN);
       tengwarFont = tengwarFont.deriveFont((float) 14);
     } catch (FontFormatException e) {
+      System.err.println(fontFileName);
       System.err.println(e.getMessage());
     } catch (IOException e) {
+      System.err.println(fontFileName);
       System.err.println(e.getMessage());
     }
     return tengwarFont;
@@ -68,7 +70,7 @@ public class FontManager {
   }
 
   /**
-   * Register all available fonts.
+   * Register all available com.erutulco.notieimberisseo.fonts.
    */
   public static void registerAvailableFonts() {
     for (int i = 0; i < FontManager.fonts.length; i++) {

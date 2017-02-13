@@ -1,6 +1,6 @@
-package lang.available;
+package com.erutulco.notieimberisseo.lang.available;
 
-import lang.Lang;
+import com.erutulco.notieimberisseo.lang.Lang;
 
 public class LangQuenya extends Lang {
 
