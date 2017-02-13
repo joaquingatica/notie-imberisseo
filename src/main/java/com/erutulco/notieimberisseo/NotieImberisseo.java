@@ -23,7 +23,7 @@
  * along with "Notië Imberissëo".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package main;
+package com.erutulco.notieimberisseo;
 
 import java.awt.EventQueue;
 

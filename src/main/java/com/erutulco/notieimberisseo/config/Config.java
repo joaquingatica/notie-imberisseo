@@ -23,7 +23,7 @@
  * along with "Notië Imberissëo".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package config;
+package com.erutulco.notieimberisseo.config;
 
 public class Config {
 

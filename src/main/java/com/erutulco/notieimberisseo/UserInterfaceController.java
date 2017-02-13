@@ -23,7 +23,7 @@
  * along with "Notië Imberissëo".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package main;
+package com.erutulco.notieimberisseo;
 
 import com.erutulco.ImladrisCalendar;
 import com.google.maps.GeoApiContext;
@@ -34,10 +34,10 @@ import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.luckycatlabs.sunrisesunset.dto.Location;
 import com.maxmind.geoip.LookupService;
 
-import config.Config;
+import com.erutulco.notieimberisseo.config.Config;
 
-import data.GregorianInfo;
-import data.ImladrisInfo;
+import com.erutulco.notieimberisseo.data.GregorianInfo;
+import com.erutulco.notieimberisseo.data.ImladrisInfo;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -63,8 +63,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-import lang.Lang;
-import lang.LangManager;
+import com.erutulco.notieimberisseo.lang.Lang;
+import com.erutulco.notieimberisseo.lang.LangManager;
 
 import org.apache.commons.io.FileUtils;
 
@@ -267,7 +267,7 @@ public class UserInterfaceController {
     String[] res = new String[2];
 
     try {
-      InputStream is = this.getClass().getResourceAsStream("/maxmind/GeoLiteCity.dat");
+      InputStream is = this.getClass().getResourceAsStream("/com/erutulco/notieimberisseo/maxmind/GeoLiteCity.dat");
       File tempFile = File.createTempFile("GeoLiteCity", ".dat");
       tempFile.deleteOnExit();
       FileUtils.copyInputStreamToFile(is, tempFile);

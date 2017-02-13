@@ -23,16 +23,16 @@
  * along with "Notië Imberissëo".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package main;
+package com.erutulco.notieimberisseo;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
-import data.GregorianInfo;
-import data.ImladrisInfo;
-import fonts.FontManager;
+import com.erutulco.notieimberisseo.data.GregorianInfo;
+import com.erutulco.notieimberisseo.data.ImladrisInfo;
+import com.erutulco.notieimberisseo.fonts.FontManager;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -68,8 +68,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import lang.Lang;
-import lang.LangManager;
+import com.erutulco.notieimberisseo.lang.Lang;
+import com.erutulco.notieimberisseo.lang.LangManager;
 
 public class UserInterface implements HyperlinkListener {
 
@@ -341,7 +341,7 @@ public class UserInterface implements HyperlinkListener {
     /* Get app icon */
     try {
       InputStream is = new BufferedInputStream(
-          this.getClass().getResourceAsStream("/images/icon.png")
+          this.getClass().getResourceAsStream("/com/erutulco/notieimberisseo/images/icon.png")
       );
       Image icon = ImageIO.read(is);
       frmNotiImberisso.setIconImage(icon);
