@@ -1,7 +1,7 @@
 def PACKAGE = 'com.erutulco'
 def ID = 'notie-imberisseo'
 def VERSION = '2.6.0'
-def STATE = 'rc'
+def STATE = 'rc2'
 def MAIN_CLASS = 'com.erutulco.notieimberisseo.NotieImberisseo'
 
 group PACKAGE
