@@ -25,7 +25,7 @@
 
 package com.erutulco.notieimberisseo;
 
-import com.erutulco.ImladrisCalendar;
+import com.erutulco.utils.ImladrisCalendar;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.TimeZoneApi;

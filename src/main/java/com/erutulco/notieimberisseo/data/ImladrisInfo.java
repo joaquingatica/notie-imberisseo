@@ -25,7 +25,7 @@
 
 package com.erutulco.notieimberisseo.data;
 
-import com.erutulco.ImladrisCalendar;
+import com.erutulco.utils.ImladrisCalendar;
 
 import java.util.ArrayList;
 
