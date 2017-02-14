@@ -38,7 +38,9 @@ public class FontManager {
   public static Font getTrueTypeFont(String fontFileName) {
     Font tengwarFont = null;
     try {
-      InputStream stream = FontManager.class.getResourceAsStream("/com/erutulco/notieimberisseo/fonts/" + fontFileName);
+      InputStream stream = FontManager.class.getResourceAsStream(
+          "/com/erutulco/notieimberisseo/fonts/" + fontFileName
+      );
       tengwarFont = Font.createFont(Font.TRUETYPE_FONT, stream);
       tengwarFont = tengwarFont.deriveFont(Font.PLAIN);
       tengwarFont = tengwarFont.deriveFont((float) 14);

@@ -65,7 +65,9 @@ public class LangManager {
       String language = LangManager.languages[i];
       ClassLoader classLoader = LangManager.class.getClassLoader();
       try {
-        Class<?> langClass = classLoader.loadClass("com.erutulco.notieimberisseo.lang.available.Lang" + language);
+        Class<?> langClass = classLoader.loadClass(
+            "com.erutulco.notieimberisseo.lang.available.Lang" + language
+        );
         Lang lang = (Lang) langClass.newInstance();
         langs.put(lang.getShortName(), lang);
       } catch (ClassNotFoundException e) {

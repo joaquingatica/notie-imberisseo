@@ -1,31 +1,13 @@
-/**
- * Notië Imberissëo
- * <p>
- * Copyright 2012 Joaquín Gatica (Erutulco Eruntano)
- * <p>
- * Contact:
- * Twitter: <http://twitter.com/joaquingatica>
- * Email: <erutulco@quenya101.com>
- * <p>
- * This file is part of "Notië Imberissëo".
- * <p>
- * "Notië Imberissëo" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * "Notië Imberissëo" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with "Notië Imberissëo".  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package com.erutulco.notieimberisseo;
 
+import com.erutulco.notieimberisseo.config.Config;
+import com.erutulco.notieimberisseo.data.GregorianInfo;
+import com.erutulco.notieimberisseo.data.ImladrisInfo;
+import com.erutulco.notieimberisseo.lang.Lang;
+import com.erutulco.notieimberisseo.lang.LangManager;
+
 import com.erutulco.utils.ImladrisCalendar;
+
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.TimeZoneApi;
@@ -33,11 +15,6 @@ import com.google.maps.model.GeocodingResult;
 import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.luckycatlabs.sunrisesunset.dto.Location;
 import com.maxmind.geoip.LookupService;
-
-import com.erutulco.notieimberisseo.config.Config;
-
-import com.erutulco.notieimberisseo.data.GregorianInfo;
-import com.erutulco.notieimberisseo.data.ImladrisInfo;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -62,9 +39,6 @@ import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-
-import com.erutulco.notieimberisseo.lang.Lang;
-import com.erutulco.notieimberisseo.lang.LangManager;
 
 import org.apache.commons.io.FileUtils;
 
@@ -267,7 +241,9 @@ public class UserInterfaceController {
     String[] res = new String[2];
 
     try {
-      InputStream is = this.getClass().getResourceAsStream("/com/erutulco/notieimberisseo/maxmind/GeoLiteCity.dat");
+      InputStream is = this.getClass().getResourceAsStream(
+          "/com/erutulco/notieimberisseo/maxmind/GeoLiteCity.dat"
+      );
       File tempFile = File.createTempFile("GeoLiteCity", ".dat");
       tempFile.deleteOnExit();
       FileUtils.copyInputStreamToFile(is, tempFile);

@@ -1,38 +1,15 @@
-/**
- * Notië Imberissëo
- * <p>
- * Copyright 2012 Joaquín Gatica (Erutulco Eruntano)
- * <p>
- * Contact:
- * Twitter: <http://twitter.com/joaquingatica>
- * Email: <erutulco@quenya101.com>
- * <p>
- * This file is part of "Notië Imberissëo".
- * <p>
- * "Notië Imberissëo" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * "Notië Imberissëo" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with "Notië Imberissëo".  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package com.erutulco.notieimberisseo;
+
+import com.erutulco.notieimberisseo.data.GregorianInfo;
+import com.erutulco.notieimberisseo.data.ImladrisInfo;
+import com.erutulco.notieimberisseo.fonts.FontManager;
+import com.erutulco.notieimberisseo.lang.Lang;
+import com.erutulco.notieimberisseo.lang.LangManager;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
-
-import com.erutulco.notieimberisseo.data.GregorianInfo;
-import com.erutulco.notieimberisseo.data.ImladrisInfo;
-import com.erutulco.notieimberisseo.fonts.FontManager;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -67,9 +44,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-
-import com.erutulco.notieimberisseo.lang.Lang;
-import com.erutulco.notieimberisseo.lang.LangManager;
 
 public class UserInterface implements HyperlinkListener {
 
