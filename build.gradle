@@ -21,11 +21,11 @@ checkstyle {
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.erutulco.utils:imladris-calendar:1.2.1-rc6'
     compile 'commons-io:commons-io:2.5'
     compile 'com.maxmind.geoip:geoip-api:1.2.11'
     compile 'com.google.maps:google-maps-services:0.1.17'
