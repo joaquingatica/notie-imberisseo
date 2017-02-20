@@ -1,27 +1,16 @@
 package com.erutulco.notieimberisseo;
 
 import com.erutulco.notieimberisseo.config.Config;
+import com.erutulco.notieimberisseo.config.Settings;
 import com.erutulco.notieimberisseo.data.GregorianInfo;
 import com.erutulco.notieimberisseo.data.ImladrisInfo;
 import com.erutulco.notieimberisseo.lang.Lang;
 import com.erutulco.notieimberisseo.lang.LangManager;
 
 import com.erutulco.utils.ImladrisCalendar;
+import com.erutulco.utils.LocationInfo;
+import com.erutulco.utils.SunsetUtils;
 
-import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
-import com.google.maps.TimeZoneApi;
-import com.google.maps.model.GeocodingResult;
-import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
-import com.luckycatlabs.sunrisesunset.dto.Location;
-import com.maxmind.geoip.LookupService;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,9 +18,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-import java.util.prefs.Preferences;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -40,25 +27,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-import org.apache.commons.io.FileUtils;
-
 public class UserInterfaceController {
 
-  private static final String FIELD_CITY = "city";
-  private static final String FIELD_COUNTRY = "country";
-  private static final String FIELD_LANG = "language";
-  private static final String FIELD_TIMEZONE = "timezone";
-  private static final String FIELD_CACHE_SUNSET = "sunset";
-  private static final String FIELD_IP = "ip";
-  private static String DEF_COUNTRY = "Uruguay";
-  private static String DEF_CITY = "Montevideo";
-  private static final String DEF_LANG = "eng";
-  private static final String DEF_TIMEZONE = TimeZone.getDefault().getID();
-  private static final String DEF_CACHE_SUNSET = "";
-  private static final String DEF_IP = "";
-
   private UserInterface ui;
-  private Preferences preferences = null;
   private LangManager langManager;
 
   public void setUi(UserInterface ui) {
@@ -67,14 +38,6 @@ public class UserInterfaceController {
 
   public UserInterface getUi() {
     return ui;
-  }
-
-  public void setPreferences(Preferences preferences) {
-    this.preferences = preferences;
-  }
-
-  public Preferences getPreferences() {
-    return preferences;
   }
 
   public void setLangManager(LangManager langManager) {
@@ -100,17 +63,17 @@ public class UserInterfaceController {
 
   private UserInterfaceController() {
     LangManager langManager = LangManager.getInstance();
-    Preferences data = this.getCurrentPreferences();
-    String shortName = data.get(FIELD_LANG, DEF_LANG);
+    Settings data = this.getCurrentSettings();
+    String shortName = data.get(Settings.LANG);
     if (!langManager.defineLang(shortName)) {
-      langManager.defineLang(DEF_LANG);
+      langManager.defineLang(data.getDefault(Settings.LANG));
     }
     this.setLangManager(langManager);
     String[] countryCity = this.getCurrentCountryAndCity();
     if (countryCity[0] != null && !countryCity[0].isEmpty()
         && countryCity[1] != null && !countryCity[1].isEmpty()) {
-      DEF_COUNTRY = countryCity[0];
-      DEF_CITY = countryCity[1];
+      data.setDefault(Settings.COUNTRY, countryCity[0]);
+      data.setDefault(Settings.CITY, countryCity[1]);
     }
   }
 
@@ -171,20 +134,39 @@ public class UserInterfaceController {
     this.fillSettingsForm();
   }
 
-  private String makeLocationString(String city, String country) {
-    String place = "";
-    if (city.length() > 0 || country.length() > 0) {
-      if (city.length() > 0) {
-        place += city;
-      }
-      if (country.length() > 0) {
-        if (place.length() > 0) {
-          place += ", ";
-        }
-        place += country;
+  /**
+   * Get current country and city.
+   * @return Country, City string array
+   */
+  public String[] getCurrentCountryAndCity() {
+    return this.getCurrentCountryAndCity(false);
+  }
+
+  /**
+   * Get current country and city.
+   * @param ignoreCache Ignore Cache
+   * @return Country, City string array
+   */
+  public String[] getCurrentCountryAndCity(boolean ignoreCache) {
+    String[] result = {};
+    Settings data = this.getCurrentSettings();
+    String ip = data.get(Settings.IP);
+    if (ignoreCache || ip == null || ip.isEmpty()) {
+      ip = SunsetUtils.getIpAddress();
+      data.set(Settings.IP, ip);
+      if (ip != null && !ip.isEmpty()) {
+        result = SunsetUtils.getCountryAndCityFromIpAddress(ip);
       }
     }
-    return place;
+    return result;
+  }
+
+  /**
+   * Calculate sunset for actual location and time.
+   * @return Time for the sunset
+   */
+  public Time calculateSunsetForActualLocation() {
+    return this.calculateSunsetForActualLocation(true);
   }
 
   /**
@@ -192,85 +174,10 @@ public class UserInterfaceController {
    * @param useCacheSunset Use sunset cache
    * @return Time for the sunset
    */
-  public Time calculateSunsetForActualLocationAndTime(boolean useCacheSunset) {
-    Preferences data = this.getCurrentPreferences();
-    TimeZone tz = TimeZone.getTimeZone(data.get(FIELD_TIMEZONE, DEF_TIMEZONE));
-    Time time = this.calculateSunsetForActualLocation(new GregorianCalendar(tz), useCacheSunset);
-    return time;
-  }
-
-  public String getIpAddress() {
-    return this.getIpAddress(false);
-  }
-
-  /**
-   * Get current IP address.
-   * @param ignoreCache Ignore cache
-   * @return IP address string
-   */
-  public String getIpAddress(boolean ignoreCache) {
-    Preferences data = this.getCurrentPreferences();
-    String ip = data.get(FIELD_IP, DEF_IP);
-    if (ignoreCache || ip == null || ip.isEmpty()) {
-      try {
-        URL url = new URL("https://api.ipify.org");
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        InputStream is = connection.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder out = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-          out.append(line);
-        }
-        ip = out.toString();
-        data.put(FIELD_IP, ip);
-      } catch (IOException e) {
-        System.err.println(e.getMessage());
-      }
-    }
-    return ip;
-  }
-
-  /**
-   * Calculate Country and City from IP Address.
-   * @param ip IP address string
-   * @return Country, City string array
-   */
-  public String[] getCountryAndCityFromIpAddress(String ip) {
-    String[] res = new String[2];
-
-    try {
-      InputStream is = this.getClass().getResourceAsStream(
-          "/com/erutulco/notieimberisseo/maxmind/GeoLiteCity.dat"
-      );
-      File tempFile = File.createTempFile("GeoLiteCity", ".dat");
-      tempFile.deleteOnExit();
-      FileUtils.copyInputStreamToFile(is, tempFile);
-
-      LookupService cl = new LookupService(tempFile,
-          LookupService.GEOIP_MEMORY_CACHE | LookupService.GEOIP_CHECK_CACHE);
-      com.maxmind.geoip.Location location = cl.getLocation(ip);
-      res[0] = location.countryName;
-      res[1] = location.city;
-    } catch (IOException e) {
-      System.err.println(e.getMessage());
-    }
-
-    return res;
-  }
-
-  /**
-   * Get current country and city.
-   * @return Country, City string array
-   */
-  public String[] getCurrentCountryAndCity() {
-    String ip = this.getIpAddress();
-    String[] result = {};
-    if (ip != null && !ip.isEmpty()) {
-      result = this.getCountryAndCityFromIpAddress(ip);
-    }
-    return result;
+  public Time calculateSunsetForActualLocation(boolean useCacheSunset) {
+    Settings data = this.getCurrentSettings();
+    TimeZone tz = TimeZone.getTimeZone(data.get(Settings.TIMEZONE));
+    return this.calculateSunsetForActualLocation(new GregorianCalendar(tz), useCacheSunset);
   }
 
   /**
@@ -280,16 +187,15 @@ public class UserInterfaceController {
    * @return Time of current sunset
    */
   public Time calculateSunsetForActualLocation(Calendar calendar, boolean useCacheSunset) {
-    Preferences data = this.getCurrentPreferences();
-    String city = data.get(FIELD_CITY, DEF_CITY);
-    String country = data.get(FIELD_COUNTRY, DEF_COUNTRY);
-    Time time = this.calculateSunset(calendar, city, country, useCacheSunset);
-    return time;
+    Settings data = this.getCurrentSettings();
+    String city = data.get(Settings.CITY);
+    String country = data.get(Settings.COUNTRY);
+    return this.calculateSunset(calendar, city, country, useCacheSunset);
   }
 
   public Time calculateSunset(Calendar calendar, String city,
-                              String country, boolean useCacheSunset) {
-    return this.calculateSunset(calendar, city, country, useCacheSunset, false);
+                                     String country, boolean useCacheSunset) {
+    return calculateSunset(calendar, city, country, useCacheSunset, false);
   }
 
   /**
@@ -302,40 +208,33 @@ public class UserInterfaceController {
    * @return Time of sunset
    */
   public Time calculateSunset(Calendar calendar, String city,
-                              String country, boolean useCacheSunset, boolean forceCache) {
+                                      String country, boolean useCacheSunset, boolean forceCache) {
     Time time = null;
     boolean useCache = useCacheSunset;
-    Preferences data = this.getCurrentPreferences();
+    Settings data = getCurrentSettings();
     if (!useCache) {
-      String place = this.makeLocationString(city, country);
-      if (place.length() > 0) {
-        try {
-          GeoApiContext context = new GeoApiContext().setApiKey(Config.getGoogleMapsApiKey());
-          GeocodingResult[] results = GeocodingApi.geocode(context, place).await();
-          TimeZone tz = TimeZoneApi.getTimeZone(context, results[0].geometry.location).await();
-          data.put(FIELD_TIMEZONE, tz.getID());
+      try {
+        LocationInfo info = SunsetUtils.getLocationInfo(city, country);
+        if (info != null) {
+          String sunset = SunsetUtils.calculateSunset(calendar, info);
 
-          double latitude = results[0].geometry.location.lat;
-          double longitude = results[0].geometry.location.lng;
-          Location location = new Location(Double.toString(latitude), Double.toString(longitude));
-          SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, tz);
-          String sunset = calculator.getOfficialSunsetForDate(calendar) + ":00";
-          data.put(FIELD_CACHE_SUNSET, sunset);
+          data.set(Settings.TIMEZONE, info.getTimeZone());
+          data.set(Settings.SUNSET, sunset);
 
           time = Time.valueOf(sunset);
-        } catch (Exception e) {
+        } else {
           useCache = true;
         }
-      } else {
+      } catch (Exception e) {
         useCache = true;
       }
     }
     if (useCache && !forceCache) {
-      String cacheSunset = data.get(FIELD_CACHE_SUNSET, DEF_CACHE_SUNSET);
+      String cacheSunset = data.get(Settings.SUNSET);
       if (!cacheSunset.isEmpty()) {
         time = Time.valueOf(cacheSunset);
       } else {
-        time = this.calculateSunset(calendar, city, country, false, true);
+        time = calculateSunset(calendar, city, country, false, true);
       }
     }
     return time;
@@ -346,10 +245,10 @@ public class UserInterfaceController {
    * @param useCacheSunset Use cache
    */
   public void showDateOfToday(boolean useCacheSunset) {
-    Preferences data = this.getCurrentPreferences();
-    String city = data.get(FIELD_CITY, DEF_CITY);
-    String country = data.get(FIELD_COUNTRY, DEF_COUNTRY);
-    TimeZone tz = TimeZone.getTimeZone(data.get(FIELD_TIMEZONE, DEF_TIMEZONE));
+    Settings data = this.getCurrentSettings();
+    String city = data.get(Settings.CITY);
+    String country = data.get(Settings.COUNTRY);
+    TimeZone tz = TimeZone.getTimeZone(data.get(Settings.TIMEZONE));
     GregorianCalendar gcal = new GregorianCalendar(tz);
     Time time = this.calculateSunsetForActualLocation(gcal, useCacheSunset);
     ImladrisCalendar cal;
@@ -372,12 +271,12 @@ public class UserInterfaceController {
       sunsetTimeStr = sunsetTimeStr.substring(0, sunsetTimeStr.length() - 3);
       sunsetStr += " " + Lang.Punctuation.parenthesis_open + "occurring at "
           + sunsetTimeStr + Lang.Punctuation.parenthesis_close;
-      locationInfo = this.makeLocationString(city, country);
+      locationInfo = SunsetUtils.makeLocationString(city, country);
       if (locationInfo.length() > 0) {
         locationInfo = Lang.Punctuation.parenthesis_open + Lang.Common.location_label
             + Lang.Punctuation.double_dot + " " + locationInfo + " " + Lang.Punctuation.pipe + " "
             + Lang.Common.timezone_label + Lang.Punctuation.double_dot + " "
-            + data.get(FIELD_TIMEZONE, DEF_TIMEZONE) + Lang.Punctuation.parenthesis_close;
+            + data.get(Settings.TIMEZONE) + Lang.Punctuation.parenthesis_close;
       }
     }
     String gstr = this.gregorianToString(gcal);
@@ -614,10 +513,10 @@ public class UserInterfaceController {
 
   private void fillSettingsForm() {
     UserInterface ui = this.getUi();
-    Preferences data = this.getCurrentPreferences();
+    Settings data = this.getCurrentSettings();
     /* Country and city */
-    String city = data.get(FIELD_CITY, DEF_CITY);
-    String country = data.get(FIELD_COUNTRY, DEF_COUNTRY);
+    String city = data.get(Settings.CITY);
+    String country = data.get(Settings.COUNTRY);
     ui.getCity().setText(city);
     ui.getCountry().setText(country);
     /* Lang */
@@ -632,19 +531,19 @@ public class UserInterfaceController {
    */
   public void saveSettings() {
     UserInterface ui = this.getUi();
-    Preferences data = this.getCurrentPreferences();
+    Settings data = this.getCurrentSettings();
     boolean updateDate = false;
     /* City, country, tz */
-    String savedCity = data.get(FIELD_CITY, DEF_CITY);
+    String savedCity = data.get(Settings.CITY);
     String newCity = ui.getCity().getText();
     if (!savedCity.equals(newCity)) {
-      data.put(FIELD_CITY, newCity);
+      data.set(Settings.CITY, newCity);
       updateDate = true;
     }
-    String savedCountry = data.get(FIELD_COUNTRY, DEF_COUNTRY);
+    String savedCountry = data.get(Settings.COUNTRY);
     String newCountry = ui.getCountry().getText();
     if (!savedCountry.equals(newCountry)) {
-      data.put(FIELD_COUNTRY, newCountry);
+      data.set(Settings.COUNTRY, newCountry);
       updateDate = true;
     }
     /* Lang */
@@ -657,7 +556,7 @@ public class UserInterfaceController {
     Lang actual = langManager.getDefinedLang();
     if (!actual.getShortName().equals(shortLang)) {
       langManager.defineLang(shortLang);
-      data.put(FIELD_LANG, shortLang);
+      data.set(Settings.SUNSET, shortLang);
       this.reloadWindowInActualTab();
       updateDate = false;
     }
@@ -675,13 +574,8 @@ public class UserInterfaceController {
     return gstr;
   }
 
-  private Preferences getCurrentPreferences() {
-    Preferences prefs = this.getPreferences();
-    if (prefs == null || !(prefs instanceof Preferences)) {
-      prefs = Preferences.userRoot().node(this.getClass().getName());
-      this.setPreferences(prefs);
-    }
-    return prefs;
+  private Settings getCurrentSettings() {
+    return Config.getCurrentSettings();
   }
 
 
