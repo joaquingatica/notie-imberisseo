@@ -36,6 +36,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -625,6 +626,13 @@ public class UserInterfaceController {
     String lang = langManager.getDefinedLang().getShortName();
     JComboBox langsCombo = ui.getLangCombo();
     langsCombo.setSelectedIndex(Arrays.asList(LangManager.getLanguagesShort()).indexOf(lang));
+    /* Time Zone */
+    String[] tzs = TimeZone.getAvailableIDs();
+    Arrays.sort(tzs);
+    JList list = ui.getTimeZone();
+    list.setListData(tzs);
+    String timezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
+    list.setSelectedValue(timezone, true);
   }
 
   /**
@@ -645,6 +653,13 @@ public class UserInterfaceController {
     String newCountry = ui.getCountry().getText();
     if (!savedCountry.equals(newCountry)) {
       data.put(FIELD_COUNTRY, newCountry);
+      updateDate = true;
+    }
+    /* Time Zone */
+    String savedTimezone = data.get(FIELD_TIMEZONE, DEF_TIMEZONE);
+    String newTimezone = (String)ui.getTimeZone().getSelectedValue();
+    if (!savedTimezone.equals(newTimezone)) {
+      data.put(FIELD_TIMEZONE, newTimezone);
       updateDate = true;
     }
     /* Lang */
@@ -677,7 +692,7 @@ public class UserInterfaceController {
 
   private Preferences getCurrentPreferences() {
     Preferences prefs = this.getPreferences();
-    if (prefs == null || !(prefs instanceof Preferences)) {
+    if (prefs == null) {
       prefs = Preferences.userRoot().node(this.getClass().getName());
       this.setPreferences(prefs);
     }

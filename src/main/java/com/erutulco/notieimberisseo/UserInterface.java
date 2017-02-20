@@ -36,10 +36,13 @@ import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.HyperlinkEvent;
@@ -72,6 +75,7 @@ public class UserInterface implements HyperlinkListener {
   private JTextField city;
   private JTextField country;
   private JComboBox langCombo;
+  private JList timeZone;
   private JLabel saveResult;
 
   /* ABOUT */
@@ -228,6 +232,14 @@ public class UserInterface implements HyperlinkListener {
 
   public void setLangCombo(JComboBox langCombo) {
     this.langCombo = langCombo;
+  }
+
+  public JList getTimeZone() {
+    return timeZone;
+  }
+
+  public void setTimeZone(JList timeZone) {
+    this.timeZone = timeZone;
   }
 
   public JLabel getSaveResult() {
@@ -646,6 +658,12 @@ public class UserInterface implements HyperlinkListener {
     }
     panel.add(lblLocation, "4, 2, center, center");
 
+    JLabel lblTimezone = new JLabel(Lang.SettingsTab.timezone);
+    if (Lang.uses_tengwar) {
+      lblTimezone.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
+    }
+    panel.add(lblTimezone, "8, 2, center, center");
+
     JLabel lblCity = new JLabel(Lang.SettingsTab.city_label + Lang.Punctuation.double_dot);
     if (Lang.uses_tengwar) {
       lblCity.setFont(FontManager.getTrueTypeFont("tngan.ttf"));
@@ -655,6 +673,14 @@ public class UserInterface implements HyperlinkListener {
     city = new JTextField();
     panel.add(city, "4, 4, fill, fill");
     city.setColumns(10);
+
+    JScrollPane scrollPane = new JScrollPane();
+    panel.add(scrollPane, "8, 4, 1, 11, fill, fill");
+
+    timeZone = new JList();
+    scrollPane.setViewportView(timeZone);
+    timeZone.setBorder(null);
+    timeZone.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     JLabel lblCountry = new JLabel(Lang.SettingsTab.country_label + Lang.Punctuation.double_dot);
     if (Lang.uses_tengwar) {
