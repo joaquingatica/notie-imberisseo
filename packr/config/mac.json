@@ -1,0 +1,13 @@
+{
+  "platform": "mac",
+  "jdk": "https://bitbucket.org/alexkasko/openjdk-unofficial-builds/downloads/openjdk-1.7.0-u80-unofficial-macosx-x86_64-image.zip",
+  "executable": "notie-imberisseo",
+  "classpath": [],
+  "mainclass": "main.NotieImberisseo",
+  "vmargs": [
+    "Xmx1G"
+  ],
+  "minimizejre": "hard",
+  "output": "build/packr/Notie Imberisseo.app",
+  "icon": "packr/icon.icns"
+}
